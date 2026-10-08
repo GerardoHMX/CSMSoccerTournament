@@ -1,0 +1,25 @@
+---
+// Leyenda al pie de las tablas de posiciones
+const { incluyeFairPlay = false, ptsAlFinal = false } = Astro.props;
+const pts = ['table_points', 'PTS', 'table_points_description', 'Puntos'];
+const items = [
+  ['table_position', 'Pos', 'table_position_description', 'Posición'],
+  ['table_played', 'PJ', 'table_played_description', 'Partidos Jugados'],
+  !ptsAlFinal && pts,
+  ['table_won', 'PG', 'table_won_description', 'Partidos Ganados'],
+  ['table_drawn', 'PE', 'table_drawn_description', 'Partidos Empatados'],
+  ['table_lost', 'PP', 'table_lost_description', 'Partidos Perdidos'],
+  ['table_goals_for', 'GF', 'table_goals_for_description', 'Goles a Favor'],
+  ['table_goals_against', 'GC', 'table_goals_against_description', 'Goles en Contra'],
+  ['table_goals_diff', 'DG', 'table_goals_diff_description', 'Diferencia de Goles'],
+  ptsAlFinal && pts,
+  incluyeFairPlay && ['table_fair_play', 'FPY', 'table_fair_play_description', 'Juego limpio'],
+].filter(Boolean) as string[][];
+---
+<div class="bg-gray-100 py-2 px-2 md:py-4 md:px-4 border-t border-gray-300">
+  <div class="flex flex-wrap gap-x-6 gap-y-1 justify-center">
+    {items.map(([k, sigla, kd, desc]) => (
+      <span><strong class="text-xs uppercase" data-translate={k}>{sigla}</strong>: <span class="text-xs uppercase" data-translate={kd}>{desc}</span></span>
+    ))}
+  </div>
+</div>

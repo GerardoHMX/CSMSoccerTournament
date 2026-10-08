@@ -1,0 +1,78 @@
+---
+// Todos los partidos con equipos definidos se incluyen en el HTML agrupados por día; el navegador muestra
+// el día de hoy (y el siguiente) o navega con las flechas (ver src/scripts/dias.ts).
+import Logo from './Logo.astro';
+import { t } from '../lib/i18n';
+import { etiquetaDia } from '../lib/fechas';
+const { torneo, porId } = Astro.props;
+const validos = torneo.partidos.filter((p) => p.fecha && p.local && p.visitante);
+const dias = [...new Set(validos.map((p) => p.fecha))].sort();
+const tipo = { grupos: null, cuartos: 'quarter_finals', semifinal: 'semifinals', tercer_puesto: 'third_and_fourth_place', final: 'final' };
+const dmy = (f: string) => { const [y, m, d] = f.split('-').map(Number); return `${d}/${m}/${y}`; };
+---
+<section id="proximosPartidos" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6 fondoB" data-navegador="partidos">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 my-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_next_matches_title">{t('section_next_matches_title')}</h3>
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <div class="flex items-center gap-2 bg-white border border-gray-300 rounded-brand px-4 py-2 shadow-sm">
+        <button id="semana-anterior" class="text-gray-600 hover:text-brand-blue transition-colors" aria-label="Día anterior" data-nav="anterior">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <div class="flex items-center text-center gap-2 px-3">
+          <svg class="w-5 h-5 text-gray-600 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+          <span id="semana-label" class="text-xs sm:text-md md:text-lg font-bold text-gray-800" data-etiqueta>...</span>
+        </div>
+        <button id="semana-siguiente" class="text-gray-600 hover:text-brand-blue transition-colors" aria-label="Día siguiente" data-nav="siguiente">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="proximosPartidos-container" class="w-full mb-6" data-lista>
+    {dias.map((dia) => {
+      const delDia = validos.filter((p) => p.fecha === dia).sort((a, b) => a.numero - b.numero);
+      return (
+        <div class="md:container mx-auto mb-8 flex flex-col h-full hidden" data-fecha={dia} data-cantidad={delDia.length}>
+          <h4 class="text-2xl font-bold text-brand-blue mb-4 flex items-center gap-2 shrink-0" data-date={dmy(dia)}>
+            <svg class="w-6 h-6 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            {etiquetaDia(dia)}
+          </h4>
+          <div class={`grid ${delDia.length > 1 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'} gap-4 lg:gap-6 flex-1 min-h-0`}>
+            {delDia.map((p) => {
+              const l = porId.get(p.local), v = porId.get(p.visitante);
+              const clave = tipo[p.fase];
+              return (
+                <div class="rounded-brand p-2 sm:p-6 md:p-8 bg-white shadow-lg ring-1 ring-black/5 border border-gray-200 hover:shadow-brand-md transition-shadow overflow-hidden h-full flex flex-col">
+                  <div class="flex flex-col lg:flex-row items-center gap-1 flex-1">
+                    <div class="flex flex-col items-center flex-1">
+                      {l?.logo && <Logo ruta={l.logo} alt={l.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain mb-1 transition-transform duration-300 hover:scale-150" />}
+                      <div class="text-xs sm:text-sm lg:text-md font-bold text-gray-800 uppercase text-center break-words">{l?.nombre}</div>
+                    </div>
+                    <div class="flex items-center"><span class="text-4xl text-brand-gold">VS</span></div>
+                    <div class="flex flex-col items-center flex-1">
+                      {v?.logo && <Logo ruta={v.logo} alt={v.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain mb-1 transition-transform duration-300 hover:scale-150" />}
+                      <div class="text-xs sm:text-sm lg:text-md font-bold text-gray-800 uppercase text-center break-words">{v?.nombre}</div>
+                    </div>
+                  </div>
+                  <div class="text-center pt-2 sm:pt-4 border-t border-gray-200 uppercase flex flex-row flex-wrap justify-center items-center gap-2 lg:gap-4 shrink-0">
+                    <span class="text-xs sm:text-md md:text-lg text-gray-600">
+                      {clave ? <span class="text-xs sm:text-md md:text-lg text-gray-600" data-translate={clave}>{t(clave)}</span>
+                        : <><span class="text-xs sm:text-md md:text-lg text-gray-600" data-translate="group">{t('group')}</span> {p.grupo}</>}
+                      {p.ciclo ? ` ${p.ciclo}` : ''}
+                    </span>
+                    <span class="text-xs sm:text-md md:text-lg text-brand-red">{dmy(dia)}</span>
+                    <span class="text-xs sm:text-md md:text-lg text-gray-600">{p.hora ? `${p.hora} hrs` : <span data-translate="hour_to_confirm">{t('hour_to_confirm')}</span>}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    })}
+    <div class="text-center py-12 hidden" data-vacio>
+      <p class="text-gray-900 text-lg mb-2" data-translate="msg_no_matches">{t('msg_no_matches')}</p>
+      <p class="text-gray-600 text-sm" data-translate="msg_no_matches_description">{t('msg_no_matches_description')}</p>
+    </div>
+  </div>
+</section>

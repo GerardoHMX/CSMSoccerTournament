@@ -1,0 +1,69 @@
+---
+import Tabs from './Tabs.astro';
+import { t } from '../lib/i18n';
+const { sancionados, ciclos } = Astro.props;
+const th = 'font-bold uppercase py-2 px-2 md:py-4 md:px-4 text-xs sm:text-md md:text-lg lg:text-lg';
+const td = 'py-2 px-2 md:py-4 md:px-4 font-medium text-xs sm:text-md md:text-lg lg:text-lg uppercase';
+---
+<section id="sancionadosSection" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6" data-filtro="ciclo">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_sanctioned_title">{t('section_sanctioned_title')}</h3>
+    <Tabs id="selector-sancionados" />
+  </div>
+  {ciclos.map((ciclo) => {
+    const lista = sancionados.filter((s) => s.ciclo === ciclo);
+    const cursos = [...new Set(lista.map((s) => s.curso))].sort();
+    return (
+      <div id={`sancionados${ciclo}`} class="overflow-x-auto mb-6 mt-6" data-ciclo={ciclo}>
+        <div>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+            <h4 class="text-3xl font-bold text-brand-gold mb-2 flex items-center gap-2">{ciclo}</h4>
+            <div class="flex items-center gap-2">
+              <label for={`filtro-curso-${ciclo}`} class="font-bold text-xs sm:text-md md:text-lg lg:text-lg uppercase whitespace-nowrap" data-translate="course">{t('course')}</label>
+              <select id={`filtro-curso-${ciclo}`} class="px-4 py-2 border border-gray-300 rounded-brand bg-white text-gray-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent cursor-pointer" data-vistas>
+                <option value="TODOS" selected data-translate="filter_all">{t('filter_all')}</option>
+                {cursos.map((c) => <option value={c}>{c}</option>)}
+              </select>
+            </div>
+          </div>
+          {['TODOS', ...cursos].map((vista) => {
+            const vl = vista === 'TODOS' ? lista : lista.filter((s) => s.curso === vista);
+            const msg = vista !== 'TODOS' ? 'table_no_sanctions_no_sanctions' : ciclo === 'ESO' ? 'table_no_sanctions_play_clean' : 'table_no_sanctions';
+            return (
+              <div data-vista={vista} class={`rounded-brand overflow-hidden shadow-lg${vista === 'TODOS' ? '' : ' hidden'}`}>
+                <div class="overflow-scroll max-h-[32rem]">
+                  <table class="w-full" style="border-collapse: collapse;">
+                    <thead class="sticky top-0">
+                      <tr style="background-color: #B30000; color: white;">
+                        <th class={th} style="width: 16%; text-align: left; padding-left: 1rem;">EQUIPO</th>
+                        <th class={th} style="width: 20%; text-align: left;" data-translate="table_course">CURSO</th>
+                        <th class={th} style="width: 12%; text-align: left;" data-translate="table_player">JUGADOR</th>
+                        <th class={th} style="width: 16%; text-align: center;" data-translate="table_red_cards">ROJAS</th>
+                        <th class={th} style="width: 16%; text-align: center;" data-translate="table_yellow_cards">AMARILLAS</th>
+                        <th class={th} style="width: 16%; text-align: center;" data-translate="table_suspended">SUSPENDIDOS</th>
+                      </tr>
+                    </thead>
+                    <tbody class="h-96 overflow-y-auto">
+                      {vl.length === 0 ? (
+                        <tr class="bg-white border-gray-100 border border-b">
+                          <td colspan="6" class="py-8 px-4 text-center"><p><span class="text-gray-700 text-xs sm:text-md md:text-lg lg:text-lg" data-translate={msg}>{t(msg)}</span></p></td>
+                        </tr>
+                      ) : vl.map((s) => (
+                        <tr class="bg-white border-gray-100 border border-b">
+                          <td class={td}>{s.equipo}</td><td class={td}>{s.curso}</td><td class={td}>{s.jugador}</td>
+                          <td class="py-2 px-2 md:py-4 md:px-4 text-center font-medium text-xs sm:text-md md:text-lg lg:text-lg">{s.rojas}</td>
+                          <td class="py-2 px-2 md:py-4 md:px-4 text-center font-medium text-xs sm:text-md md:text-lg lg:text-lg">{s.amarillas}</td>
+                          <td class="py-2 px-2 md:py-4 md:px-4 text-center font-medium text-xs sm:text-md md:text-lg lg:text-lg">{s.suspendidos}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })}
+</section>

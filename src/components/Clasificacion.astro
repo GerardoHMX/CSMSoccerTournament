@@ -1,0 +1,45 @@
+---
+// "Clasificación" en tarjetas por grupo (sección oculta por defecto en el sitio original)
+import Tabs from './Tabs.astro';
+import Logo from './Logo.astro';
+import { t } from '../lib/i18n';
+const { torneo, ciclos } = Astro.props;
+const dato = 'text-gray-900 font-bold text-xs sm:text-md md:text-lg lg:text-lg';
+const etiqueta = 'text-gray-500 text-xs sm:text-md md:text-lg lg:text-lg';
+---
+<section id="clasificacion" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover p-6" data-filtro="ciclo">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_classification_title">{t('section_classification_title')}</h3>
+    <Tabs id="selector-clasificacion" />
+  </div>
+  {ciclos.map((ciclo) => (
+    <div id={`clasificacion${ciclo}`} data-ciclo={ciclo}>
+      {Object.entries(torneo.grupos).filter(([, g]) => g.tabla[0]?.equipo.ciclo === ciclo).map(([grupo, g]) => (
+        <>
+          <div class="pb-3 pt-4">
+            <div class="flex items-center gap-2">
+              <h4 class="text-3xl font-bold text-brand-gold flex items-center">{ciclo}</h4>
+              <h4 class="text-3xl font-bold text-brand-red flex items-center gap-2"> <span class="text-3xl font-bold text-brand-red flex items-center" data-translate="group">{t('group')}</span> {grupo}</h4>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6" id={`points-per-team-${grupo}`}>
+            {g.tabla.map((f) => (
+              <div class="p-3 md:p-6 bg-transparent shadow-lg ring-1 ring-black/5 border border-gray-200 rounded-brand hover:shadow-brand-md transition-shadow ">
+                <div class="flex items-center justify-center mb-2 gap-1">
+                  {f.equipo.logo && <Logo ruta={f.equipo.logo} alt={f.equipo.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain" />}
+                  <div class="text-xs sm:text-md md:text-lg lg:text-lg font-bold flex-1">{f.equipo.nombre}</div>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-2">
+                  {[['table_points', 'PTS', f.Pts], ['table_won', 'PG', f.PG], ['table_drawn', 'PE', f.PE], ['table_lost', 'PP', f.PP],
+                    ['table_goals_for', 'GF', f.GF], ['table_goals_against', 'GC', f.GC], ['table_goals_diff', 'DG', f.DG], ['table_fair_play', 'FPY', f.FairPlay]].map(([k, txt, v]) => (
+                    <div class="flex gap-1"><span class={etiqueta} data-translate={k}>{txt}</span>:<div class={dato}>{v}</div></div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      ))}
+    </div>
+  ))}
+</section>

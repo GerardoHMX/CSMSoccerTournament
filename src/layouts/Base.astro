@@ -1,0 +1,55 @@
+---
+// Layout = la "carcasa" de la página: <head>, estilos, fuentes y scripts comunes.
+import '../styles/tailwind.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/global.css';
+
+interface Props { sitio: Record<string, any> }
+const { sitio } = Astro.props;
+const base = sitio.colegio_url.replace(/\/$/, '');
+const titulo = `Torneo Escolar - ${sitio.torneo_nombre}`;
+const ga = sitio.ga_tracking_id;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{titulo}</title>
+    <meta name="description" content={sitio.torneo_descripcion} />
+    <meta name="keywords" content={`${sitio.torneo_nombre}, ${sitio.colegio_nombre}, Torneo escolar, Fútbol Sala`} />
+    <meta name="author" content="Gerardo Huizar Castro" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href={`${base}/`} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Torneo escolar de Fútbol Sala Al-Ándalus" />
+    <meta property="og:description" content="Torneo escolar de Fútbol Sala Al-Ándalus del Colegio San Francisco de Asís" />
+    <meta property="og:url" content={`${base}/`} />
+    <meta property="og:image" content={`${base}/wp-content/uploads/2023/03/logo-ColegioSanFranciscodeAsis.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Torneo escolar de Fútbol Sala Al-Ándalus" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
+    <link rel="icon" href={`${base}/wp-content/uploads/2023/03/cropped-favicon-32x32.png`} sizes="32x32" />
+    <link rel="icon" href={`${base}/wp-content/uploads/2023/03/cropped-favicon-192x192.png`} sizes="192x192" />
+    <link rel="apple-touch-icon" href={`${base}/wp-content/uploads/2023/03/cropped-favicon-180x180.png`} />
+
+    {ga && <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`} is:inline></script>}
+    {ga && <script is:inline define:vars={{ ga }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', ga);
+    </script>}
+  </head>
+  <body class="bg-white min-h-screen flex flex-col">
+    <slot />
+  </body>
+</html>

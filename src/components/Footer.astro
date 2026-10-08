@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import { imagen } from '../lib/imagenes';
+import { t } from '../lib/i18n';
+import { url } from '../lib/url';
+const { sitio } = Astro.props;
+const logo = imagen(sitio.colegio_logo);
+const tel = (n?: string) => `tel:+34${(n ?? '').replace(/\s/g, '')}`;
+---
+<footer class="masthead text-brand-dark py-4 px-3 flex-shrink-0">
+  <div class="flex flex-col items-center justify-center gap-2">
+    <div class="flex flex-row flex-wrap items-center justify-center gap-1">
+      {logo && <Image src={logo} alt="Logo" width={224} class="w-28 h-28 hover:scale-150 object-contain transition-opacity duration-200" />}
+      <div class="flex flex-col flex-wrap items-center sm:items-start justify-center gap-1">
+        <span class="text-xl sm:text-2xl text-brand-blue">{sitio.colegio_nombre}</span>
+        <div>
+          <a href={tel(sitio.colegio_telefono1)} class="text-xs md:text-md text-gray-600 no-underline hover:underline"><span class="text-xs md:text-md text-gray-600">{sitio.colegio_telefono1}</span></a>
+          {sitio.colegio_telefono2 && <> – <a href={tel(sitio.colegio_telefono2)} class="text-xs md:text-md text-gray-600 no-underline hover:underline"><span class="text-xs md:text-md text-gray-600">{sitio.colegio_telefono2}</span></a></>}
+        </div>
+        <a href={`mailto:${sitio.colegio_email}`} target="_blank" class="text-xs md:text-md text-gray-600 no-underline hover:underline"><span class="text-xs md:text-md text-gray-600">{sitio.colegio_email}</span></a>
+        <div>
+          <a href={sitio.colegio_maps_url} target="_blank" rel="noopener noreferrer" class="flex flex-row sm:flex-col flex-wrap items-center sm:items-start justify-center gap-1 text-wrap no-underline hover:underline">
+            <span class="text-xs md:text-md text-gray-600 text-wrap">{sitio.colegio_direccion}</span>
+            <span class="text-xs md:text-md text-gray-600">{sitio.colegio_localidad}</span>
+            <span class="text-xs md:text-md text-gray-600">{sitio.colegio_provincia}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row flex-wrap items-center justify-center gap-y-1 gap-x-6 px-4">
+      <span class="text-lg md:text-xl lg:text-2xl text-brand-blue" data-translate="footer_tournament_title">{t('footer_tournament_title')}</span>
+      <h1 class="text-4xl font-bold text-brand-red">{sitio.torneo_nombre}</h1>
+      <span class="text-md md:text-lg text-brand-gold">{sitio.torneo_anio}</span>
+    </div>
+    <div class="flex flex-row flex-wrap items-center justify-center gap-1">
+      <a rel="noopener" href="https://github.com/GerardoHMX" target="_blank" class="no-underline hover:underline">
+        <img src={url('img/profile.jpg')} alt="Perfil de Gerardo Huizar Castro" class="h-10 w-10 object-contain transition-transform duration-300 hover:scale-150" />
+      </a>
+      <div>
+        <a href="https://github.com/GerardoHMX/TorneoAl-Andalus" class="no-underline hover:underline text-xs" target="_blank" rel="noopener" data-translate="footer_made_by">{t('footer_made_by')}</a>
+        <a href="https://github.com/GerardoHMX" class="no-underline hover:underline text-xs">Gerardo Huizar Castro</a>
+      </div>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" class="flex flex-row flex-wrap items-center justify-center gap-1 no-underline hover:underline text-xs">
+        <span class="text-xs" data-translate="footer_license">{t('footer_license')}</span>
+        {['cc', 'by', 'nc', 'sa'].map((i) => <div><img class="h-4 w-4 object-contain transition-transform duration-300 hover:scale-150" src={`https://mirrors.creativecommons.org/presskit/icons/${i}.svg?ref=chooser-v1`} alt="" /></div>)}
+      </a>
+    </div>
+  </div>
+</footer>

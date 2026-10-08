@@ -1,0 +1,54 @@
+{
+  "tarjetas": [
+    {
+      "titulo": "Torneo escolar",
+      "activa": true,
+      "imagen": "/src/assets/sitio/logo-torneo.png",
+      "pie_imagen": "2025-2026",
+      "contenido": ""
+    },
+    {
+      "titulo": "Cartel del Torneo escolar",
+      "activa": true,
+      "imagen": "/src/assets/sitio/cartel-torneo.png",
+      "pie_imagen": "Cartel del Torneo escolar",
+      "contenido": ""
+    },
+    {
+      "titulo": "Descripción del torneo",
+      "activa": true,
+      "contenido": "Torneo organizado por el Departamento de Educación Física del **Colegio San Francisco de Asís**, dirigido a estudiantes de ESO y Bachillerato.\n\nMás que una competición, el torneo fomenta la **inclusión, el respeto y la práctica deportiva saludable** en un ambiente escolar lleno de compañerismo y alegría."
+    },
+    {
+      "titulo": "Participantes",
+      "activa": true,
+      "contenido": "Abierto a todo el alumnado de **ESO y Bachillerato**. Equipos mixtos sin distinción de género.\n\n### Equipos\n\n- Hasta **seis jugadores** por equipo.\n- Hasta **dos capitanes** por equipo.\n\n### Inscripción\n\nEntregar hoja de inscripción al profesorado de Educación Física. La fecha límite de inscripción es el **11 de noviembre de 2025**."
+    },
+    {
+      "titulo": "Calendario",
+      "activa": true,
+      "contenido": "**Inicio:** 25 de noviembre de 2025.\n\n**Final:** 19 de febrero de 2026.\n\n**Entrega de trofeos:** 20 de febrero (Día de Andalucía).\n\nPartidos en los **recreos** (nov–feb).\n\n**\\*** En caso de lluvia, las finales podrán posponerse a la primera semana posterior a Semana Blanca."
+    },
+    {
+      "titulo": "Sistema de competición",
+      "activa": true,
+      "contenido": "Fase de grupos **(A, B, C y D)** a partido único.\n\nPasan los dos primeros de cada grupo a **cuartos**, luego **semifinales**, **3.º-4.º** y **final**.\n\nPuntuación: **3** victoria · **1** empate · **0** derrota.\n\nPartidos arbitrados por profesorado."
+    },
+    {
+      "titulo": "Normas de juego",
+      "activa": true,
+      "contenido": "Dos tiempos de **12′** (descanso 1′).\n\nSaques de banda y córner **con las manos**.\n\nSin **cesión al portero** y sin **fuera de juego**.\n\nFaltas directas con **5 pasos**; a la 6.ª, **doble penalti**.\n\nEquipación: **camiseta blanca** y otra de **color**. Sin equipación adecuada, no se juega."
+    },
+    {
+      "titulo": "Fair Play y disciplina",
+      "activa": true,
+      "contenido": "Se valora respeto al árbitro, rival y normas; evitar simulaciones y pérdida de tiempo.\n\nConductas antideportivas pueden suponer **0 puntos de Fair Play**, **partido por 0-2** o **exclusión**.\n\nAcumulación de 2 amarillas o 1 roja: **un partido** de sanción. Dos rojas: **expulsión del torneo**.\n\nSanciones disciplinarias del centro pueden inhabilitar la participación."
+    },
+    {
+      "titulo": "Premios y Reconocimientos",
+      "activa": true,
+      "centrado": true,
+      "contenido": "🥇 Campeón\n\n🥈 Subcampeón\n\n🥉 Tercer puesto\n\n⚽ Máximo goleador\n\n🏅 Fair Play"
+    }
+  ]
+}

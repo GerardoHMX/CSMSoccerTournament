@@ -1,0 +1,34 @@
+{
+  "avatares": [
+    {
+      "ciclo": "ESO",
+      "posicion": 1,
+      "imagen": "/src/assets/lideres/eso-1.png"
+    },
+    {
+      "ciclo": "ESO",
+      "posicion": 2,
+      "imagen": "/src/assets/lideres/eso-2.png"
+    },
+    {
+      "ciclo": "ESO",
+      "posicion": 3,
+      "imagen": "/src/assets/lideres/eso-3.png"
+    },
+    {
+      "ciclo": "BCH",
+      "posicion": 1,
+      "imagen": "/src/assets/lideres/bch-1.png"
+    },
+    {
+      "ciclo": "BCH",
+      "posicion": 2,
+      "imagen": "/src/assets/lideres/bch-2.png"
+    },
+    {
+      "ciclo": "BCH",
+      "posicion": 3,
+      "imagen": "/src/assets/lideres/bch-3.png"
+    }
+  ]
+}

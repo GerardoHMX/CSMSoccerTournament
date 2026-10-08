@@ -1,0 +1,494 @@
+# Configuración de Pages CMS (https://pagescms.org) — formularios en español.
+# Cada cambio guardado en el CMS crea un "commit" en GitHub y la web se vuelve a publicar sola (≈1-2 min).
+
+media:
+  - name: equipos
+    label: Logos de equipos
+    input: src/assets/equipos
+    output: /src/assets/equipos
+    categories: [image]
+    rename: safe
+  - name: noticias
+    label: Fotos de noticias
+    input: src/assets/noticias
+    output: /src/assets/noticias
+    categories: [image]
+    rename: safe
+  - name: galeria
+    label: Fotos de la galería
+    input: src/assets/galeria
+    output: /src/assets/galeria
+    categories: [image]
+    rename: safe
+  - name: lideres
+    label: Imágenes del podio de goleadores
+    input: src/assets/lideres
+    output: /src/assets/lideres
+    categories: [image]
+    rename: safe
+  - name: sitio
+    label: Logos e imágenes del sitio
+    input: src/assets/sitio
+    output: /src/assets/sitio
+    categories: [image]
+    rename: safe
+
+content:
+  # ───────────────────────────── COMPETICIÓN ─────────────────────────────
+  - name: competicion
+    label: ⚽ Competición
+    type: group
+    items:
+      - name: partidos
+        label: Resultados y partidos
+        type: collection
+        path: src/content/partidos
+        format: json
+        filename:
+          template: "{numero}.json"
+          field: false
+        view:
+          fields: [numero, fase, grupo, fecha, hora, local, visitante, goles_local, goles_visitante]
+          primary: numero
+          sort: [numero, fecha]
+          default:
+            sort: numero
+            order: asc
+        fields:
+          - name: numero
+            label: Nº de partido
+            type: number
+            required: true
+            description: "Número único del partido (1 al 32). Es el que usa el calendario."
+            options: { min: 1 }
+          - name: fase
+            label: Fase
+            type: select
+            required: true
+            options:
+              values:
+                - { value: grupos, label: Fase de grupos }
+                - { value: cuartos, label: Cuartos de final }
+                - { value: semifinal, label: Semifinal }
+                - { value: tercer_puesto, label: Tercer puesto }
+                - { value: final, label: Final }
+          - name: grupo
+            label: Grupo
+            type: select
+            description: "Solo en fase de grupos. En las eliminatorias déjalo vacío."
+            options:
+              values: [A, B, C, D]
+          - name: fecha
+            label: Fecha
+            type: date
+            description: "Día del partido. Si aún no se sabe, déjalo vacío."
+            options:
+              format: yyyy-MM-dd
+          - name: hora
+            label: Hora (HH:MM)
+            type: string
+            description: "Por ejemplo 10:15"
+            pattern:
+              regex: "^\\d{1,2}:\\d{2}$"
+              message: "Escribe la hora como 10:15"
+          - name: local
+            label: Equipo local
+            type: reference
+            description: "En fase de grupos es obligatorio. En eliminatorias se rellena SOLO con los clasificados; déjalo vacío salvo que quieras forzar un equipo."
+            options:
+              collection: equipos
+              search: "name,fields.nombre"
+              value: "{name}"
+              label: "{fields.nombre}"
+          - name: visitante
+            label: Equipo visitante
+            type: reference
+            description: "Igual que el equipo local."
+            options:
+              collection: equipos
+              search: "name,fields.nombre"
+              value: "{name}"
+              label: "{fields.nombre}"
+          - name: goles_local
+            label: Goles del local
+            type: number
+            description: "Déjalo vacío si el partido todavía NO se ha jugado. Poner un 0 significa 0 goles."
+            options: { min: 0 }
+          - name: goles_visitante
+            label: Goles del visitante
+            type: number
+            description: "Déjalo vacío si el partido todavía NO se ha jugado."
+            options: { min: 0 }
+          - name: penales_local
+            label: Penales del local (solo eliminatorias)
+            type: number
+            description: "Solo si hubo empate en una eliminatoria y se decidió por penales."
+            options: { min: 0 }
+          - name: penales_visitante
+            label: Penales del visitante (solo eliminatorias)
+            type: number
+            options: { min: 0 }
+          - name: estado
+            label: Estado (opcional)
+            type: select
+            description: "Normalmente se deja vacío: el partido cuenta como JUGADO cuando tiene goles. Usa «Cancelado» si se suspende."
+            options:
+              values:
+                - { value: programado, label: Pendiente }
+                - { value: jugado, label: Jugado }
+                - { value: cancelado, label: Cancelado }
+
+      - name: equipos
+        label: Equipos
+        type: collection
+        path: src/content/equipos
+        format: json
+        filename:
+          template: "{nombre}.json"
+          field: create
+        view:
+          fields: [nombre, ciclo, curso, grupo, fairplay]
+          primary: nombre
+          sort: [nombre, grupo]
+          default:
+            sort: grupo
+            order: asc
+        fields:
+          - name: nombre
+            label: Nombre del equipo
+            type: string
+            required: true
+          - name: ciclo
+            label: Ciclo
+            type: select
+            required: true
+            options:
+              values: [ESO, BCH]
+          - name: curso
+            label: Curso
+            type: string
+            required: true
+            description: "Por ejemplo: 3º ESO A o 2º BCH B1"
+          - name: grupo
+            label: Grupo
+            type: select
+            required: true
+            options:
+              values: [A, B, C, D]
+          - name: orden
+            label: Orden dentro del grupo
+            type: number
+            description: "1, 2, 3, 4… Solo cambia el orden en que aparecen en «Equipos»."
+            options: { min: 1 }
+          - name: fairplay
+            label: Puntos de Fair Play
+            type: number
+            required: true
+            description: "Se muestra en la tabla (columna FPY). Si el ajuste «El Fair Play suma a los puntos» está activo, también cuenta para ordenar."
+            options: { min: 0 }
+          - name: logo
+            label: Logo
+            type: image
+            options:
+              media: equipos
+
+      - name: goleadores
+        label: Líderes goleadores
+        type: file
+        path: src/content/goleadores.json
+        format: json
+        fields:
+          - name: jugadores
+            label: Jugadores
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{jugador} — {goles} goles"
+            fields:
+              - name: equipo
+                label: Equipo
+                type: reference
+                required: true
+                options:
+                  collection: equipos
+                  search: "name,fields.nombre"
+                  value: "{name}"
+                  label: "{fields.nombre} ({fields.curso})"
+              - name: jugador
+                label: Jugador (nombre abreviado)
+                type: string
+                required: true
+                description: "Escribe solo el nombre y las iniciales de los apellidos, p. ej. «LUCAS L.». La web SIEMPRE abrevia el nombre aunque se escriba completo."
+              - name: goles
+                label: Goles
+                type: number
+                required: true
+                options: { min: 0 }
+
+      - name: sanciones
+        label: Sancionados
+        type: file
+        path: src/content/sanciones.json
+        format: json
+        fields:
+          - name: jugadores
+            label: Jugadores
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{jugador}"
+            fields:
+              - name: equipo
+                label: Equipo
+                type: reference
+                required: true
+                options:
+                  collection: equipos
+                  search: "name,fields.nombre"
+                  value: "{name}"
+                  label: "{fields.nombre} ({fields.curso})"
+              - name: jugador
+                label: Jugador (nombre abreviado)
+                type: string
+                required: true
+                description: "Solo nombre e iniciales, p. ej. «ADRIÁN R.»."
+              - name: rojas
+                label: Tarjetas rojas
+                type: number
+                options: { min: 0 }
+              - name: amarillas
+                label: Tarjetas amarillas
+                type: number
+                options: { min: 0 }
+              - name: suspendidos
+                label: Partidos de suspensión
+                type: number
+                options: { min: 0 }
+
+  # ───────────────────────────── NOTICIAS Y GALERÍA ─────────────────────────────
+  - name: publicaciones
+    label: 📰 Noticias y galería
+    type: group
+    items:
+      - name: noticias
+        label: Noticias
+        type: collection
+        path: src/content/noticias
+        format: yaml-frontmatter
+        filename:
+          template: "{fecha}-{titulo}.md"
+          field: false
+        view:
+          fields: [fecha, titulo, autor, publicar]
+          primary: titulo
+          sort: [fecha, titulo]
+          default:
+            sort: fecha
+            order: desc
+        fields:
+          - name: titulo
+            label: Título
+            type: string
+            required: true
+          - name: fecha
+            label: Fecha
+            type: date
+            required: true
+            options:
+              format: yyyy-MM-dd
+          - name: autor
+            label: Créditos / autor
+            type: string
+            description: "Por ejemplo: Comité Deportivo"
+          - name: publicar
+            label: Publicar en la web
+            type: boolean
+            default: true
+          - name: imagenes
+            label: Fotos (máximo 5; la primera es la portada)
+            type: image
+            options:
+              media: noticias
+              multiple: { max: 5 }
+              unique: true
+          - name: body
+            label: Texto de la noticia
+            type: rich-text
+            required: true
+            options:
+              format: markdown
+              media: false
+
+      - name: galeria
+        label: Galería
+        type: collection
+        path: src/content/galeria
+        format: json
+        filename:
+          template: "{fecha}-{titulo}.json"
+          field: false
+        view:
+          fields: [fecha, tipo, titulo, publicar]
+          primary: titulo
+          sort: [fecha, titulo]
+          default:
+            sort: fecha
+            order: desc
+        fields:
+          - name: fecha
+            label: Fecha
+            type: date
+            required: true
+            options:
+              format: yyyy-MM-dd
+          - name: tipo
+            label: Tipo
+            type: select
+            required: true
+            options:
+              values:
+                - { value: imagen, label: Foto }
+                - { value: video, label: Vídeo }
+          - name: titulo
+            label: Título (opcional)
+            type: string
+          - name: publicar
+            label: Publicar en la web
+            type: boolean
+            default: true
+          - name: imagen
+            label: Foto (o fotograma del vídeo)
+            type: image
+            options:
+              media: galeria
+          - name: video_url
+            label: Enlace del vídeo
+            type: string
+            description: "Solo para vídeos. Enlace de YouTube o de Google Drive (compartido como «cualquiera con el enlace»). Los vídeos NO se suben al repositorio."
+
+  # ───────────────────────────── TEXTOS Y AJUSTES ─────────────────────────────
+  - name: textos
+    label: 📝 Textos y ajustes
+    type: group
+    items:
+      - name: bases
+        label: Bases del torneo
+        type: file
+        path: src/content/bases.json
+        format: json
+        fields:
+          - name: tarjetas
+            label: Tarjetas
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{titulo}"
+            fields:
+              - name: titulo
+                label: Título
+                type: string
+                required: true
+              - name: activa
+                label: Mostrar esta tarjeta
+                type: boolean
+                default: true
+              - name: imagen
+                label: Imagen (opcional)
+                type: image
+                options:
+                  media: sitio
+              - name: pie_imagen
+                label: Texto bajo la imagen (opcional)
+                type: string
+              - name: contenido
+                label: Contenido
+                type: rich-text
+                description: "Usa negrita para resaltar en azul las palabras importantes."
+                options:
+                  format: markdown
+                  media: false
+              - name: centrado
+                label: Centrar el contenido
+                type: boolean
+                default: false
+
+      - name: sitio
+        label: Datos del torneo y del colegio
+        type: file
+        path: src/content/sitio.json
+        format: json
+        fields:
+          - { name: torneo_nombre, label: Nombre del torneo, type: string, required: true }
+          - { name: torneo_anio, label: Curso escolar (p. ej. 2025-2026), type: string, required: true }
+          - { name: torneo_descripcion, label: Descripción breve, type: text, required: true }
+          - name: torneo_logo
+            label: Logo del torneo
+            type: image
+            options: { media: sitio }
+          - { name: colegio_nombre, label: Nombre del colegio, type: string, required: true }
+          - { name: colegio_telefono1, label: Teléfono 1, type: string, required: true }
+          - { name: colegio_telefono2, label: Teléfono 2 (opcional), type: string }
+          - { name: colegio_email, label: Correo electrónico, type: string, required: true }
+          - { name: colegio_direccion, label: Dirección, type: string, required: true }
+          - { name: colegio_localidad, label: Localidad, type: string, required: true }
+          - { name: colegio_provincia, label: Provincia, type: string, required: true }
+          - { name: colegio_maps_url, label: Enlace de Google Maps, type: string, required: true }
+          - { name: colegio_url, label: Web del colegio, type: string, required: true }
+          - name: colegio_logo
+            label: Logo del colegio
+            type: image
+            options: { media: sitio }
+          - { name: instagram_url, label: Enlace de Instagram, type: string, required: true }
+          - { name: ga_tracking_id, label: ID de Google Analytics (opcional), type: string, description: "Empieza por G-" }
+          - { name: feedback_script_url, label: Dirección del formulario de valoraciones (opcional), type: string }
+          - name: fairplay_suma_puntos
+            label: El Fair Play suma a los puntos (desempate)
+            type: boolean
+            default: false
+            description: "Desactivado: la tabla ordena por puntos y luego por diferencia de goles (como se ha jugado hasta ahora). Activado: se ordena por puntos + Fair Play."
+
+      - name: secciones
+        label: Secciones visibles y menú
+        type: file
+        path: src/content/secciones.json
+        format: json
+        fields:
+          - name: secciones
+            label: Secciones
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{nombre}"
+            fields:
+              - { name: id, label: Identificador (no cambiar), type: string, readonly: true }
+              - { name: nombre, label: Nombre, type: string, readonly: true }
+              - { name: en_menu, label: Aparece en el menú, type: boolean }
+              - { name: visible, label: Se muestra en la web, type: boolean }
+
+      - name: avatares
+        label: Imágenes del podio de goleadores
+        type: file
+        path: src/content/avatares.json
+        format: json
+        fields:
+          - name: avatares
+            label: Imágenes
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{ciclo} — puesto {posicion}"
+            fields:
+              - name: ciclo
+                label: Ciclo
+                type: select
+                options: { values: [ESO, BCH] }
+              - { name: posicion, label: Puesto (1, 2 o 3), type: number, options: { min: 1, max: 3 } }
+              - name: imagen
+                label: Imagen
+                type: image
+                options: { media: lideres }

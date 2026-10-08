@@ -1,0 +1,27 @@
+---
+const { url } = Astro.props;
+---
+<div id="feedback-widget-root" class="hidden fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50" role="dialog" aria-modal="true" aria-labelledby="feedback-dialog-title" data-feedback-url={url ?? ''}>
+  <div id="feedback-widget-panel" class="relative w-70 max-w-sm rounded-xl border-2 border-brand-red bg-white p-4 shadow-xl">
+    <button id="feedback-widget-close" type="button" class="absolute top-2 right-2 rounded p-1 text-brand-red transition-colors" aria-label="Cerrar">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <form id="feedback-form" method="post" target="feedback-iframe">
+      <input type="hidden" name="fecha_hora" value="" />
+      <input type="hidden" name="valoracion" value="" />
+      <input type="hidden" name="tipo" value="" />
+      <input type="hidden" name="comentario" value="" />
+      <div class="flex flex-col items-center justify-center mb-3">
+        <p id="feedback-dialog-title" class="text-sm md:text-md font-bold text-gray-800" data-translate="feedback_title">¿Cómo fue tu experiencia?</p>
+        <div id="feedback-stars" class="flex gap-0.5 mt-2"></div>
+      </div>
+      <div>
+        <label for="feedback-comment" class="text-sm md:text-md font-bold text-gray-800" data-translate="feedback_comment">Comentario (opcional)</label>
+        <textarea id="feedback-comment" rows="2" class="mt-1 w-full rounded border border-gray-200 px-2 py-1.5 text-sm focus:border-brand-red focus:ring-1 focus:ring-brand-red" placeholder="Escribe aquí…" data-translate-placeholder="feedback_comment_placeholder"></textarea>
+      </div>
+      <button id="feedback-submit" type="button" class="w-full rounded-lg bg-brand-red px-3 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors mt-1" data-translate="feedback_submit">Enviar</button>
+    </form>
+    <p id="feedback-message" class="hidden text-sm mt-2"></p>
+    <iframe name="feedback-iframe" id="feedback-iframe" class="hidden" title="Envío de valoración"></iframe>
+  </div>
+</div>

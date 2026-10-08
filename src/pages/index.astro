@@ -1,0 +1,48 @@
+---
+// Página única del sitio. Todo el contenido se lee de src/content (editable desde Pages CMS)
+// y se convierte en HTML durante el build.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Feedback from '../components/Feedback.astro';
+import Bases from '../components/Bases.astro';
+import Podio from '../components/Podio.astro';
+import ProximosPartidos from '../components/ProximosPartidos.astro';
+import Equipos from '../components/Equipos.astro';
+import Jornadas from '../components/Jornadas.astro';
+import Clasificacion from '../components/Clasificacion.astro';
+import ClasificacionGrupal from '../components/ClasificacionGrupal.astro';
+import Bracket from '../components/Bracket.astro';
+import Goleadores from '../components/Goleadores.astro';
+import Sancionados from '../components/Sancionados.astro';
+import Resultados from '../components/Resultados.astro';
+import Noticias from '../components/Noticias.astro';
+import Galeria from '../components/Galeria.astro';
+import Footer from '../components/Footer.astro';
+import { cargarDatos } from '../lib/datos';
+
+const d = await cargarDatos();
+const v = d.visible;
+---
+<Base sitio={d.sitio}>
+  <Header sitio={d.sitio} secciones={d.secciones} />
+  {v('inicio') && <Hero sitio={d.sitio} />}
+  <Feedback url={d.sitio.feedback_script_url} />
+  <Bases bases={d.bases} mostrarCarrusel={v('carouselSection')} mostrarAcordeon={v('accordionSection')} />
+  {v('podioSection') && <Podio torneo={d.torneo} porId={d.porId} />}
+  {v('proximosPartidos') && <ProximosPartidos torneo={d.torneo} porId={d.porId} />}
+  {v('equipos') && <Equipos equipos={d.equipos} ciclos={d.ciclos} />}
+  {v('jornadas') && <Jornadas torneo={d.torneo} porId={d.porId} ciclos={d.ciclos} visible={v} />}
+  {v('clasificacion') && <Clasificacion torneo={d.torneo} ciclos={d.ciclos} />}
+  {v('clasificacionGrupal') && <ClasificacionGrupal torneo={d.torneo} ciclos={d.ciclos} />}
+  {v('bracket') && <Bracket torneo={d.torneo} porId={d.porId} />}
+  {v('goleadoresSection') && <Goleadores jugadores={d.jugadorGol} avatares={d.avatares} ciclos={d.ciclos} visible={v} />}
+  {v('sancionadosSection') && <Sancionados sancionados={d.sancionados} ciclos={d.ciclos} />}
+  {v('resultadosSection') && <Resultados clasificacion={d.clasificacion} ciclos={d.ciclos} />}
+  {v('noticiasSection') && <Noticias noticias={d.noticias} />}
+  {v('galeriaSection') && <Galeria galeria={d.galeria} />}
+  <Footer sitio={d.sitio} />
+  <script>
+    import '../scripts/main.ts';
+  </script>
+</Base>

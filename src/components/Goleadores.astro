@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import Tabs from './Tabs.astro';
+import { imagen } from '../lib/imagenes';
+import { t } from '../lib/i18n';
+const { jugadores, avatares, ciclos, visible } = Astro.props;
+const th = 'font-bold uppercase py-2 px-2 md:py-4 md:px-4 text-xs sm:text-md md:text-lg lg:text-lg';
+const puestos = [['primer_puesto', 'Primer puesto'], ['segundo_puesto', 'Segundo puesto'], ['tercer_puesto', 'Tercer puesto']];
+---
+<section id="goleadoresSection" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6 bg-brand-bg-light" data-filtro="ciclo">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_top_scorers_title">{t('section_top_scorers_title')}</h3>
+    <Tabs id="selector-goleadores" />
+  </div>
+  {ciclos.map((ciclo) => {
+    const lista = jugadores.filter((j) => j.ciclo === ciclo);
+    const cursos = [...new Set(lista.map((j) => j.curso))].sort();
+    const vistas = ['TODOS', ...cursos];
+    return (
+      <div id={`goleadores${ciclo}`} class="mb-6" data-ciclo={ciclo}>
+        <div>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+            <h4 class="text-3xl font-bold text-brand-gold mb-2 flex items-center gap-2">{ciclo}</h4>
+            <div class="flex items-center gap-2">
+              <label for={`filtro-curso-goleadores-${ciclo}`} class="font-bold text-xs sm:text-md md:text-lg lg:text-lg uppercase whitespace-nowrap" data-translate="course">{t('course')}</label>
+              <select id={`filtro-curso-goleadores-${ciclo}`} class="px-4 py-2 border border-gray-300 rounded-brand bg-white text-gray-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent cursor-pointer" data-vistas>
+                <option value="TODOS" selected data-translate="filter_all">{t('filter_all')}</option>
+                {cursos.map((c) => <option value={c}>{c}</option>)}
+              </select>
+            </div>
+          </div>
+          {vistas.map((vista) => {
+            const vl = vista === 'TODOS' ? lista : lista.filter((j) => j.curso === vista);
+            return (
+              <div data-vista={vista} class={vista === 'TODOS' ? '' : 'hidden'}>
+                {visible(`lideres${ciclo}`) && (
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id={vista === 'TODOS' ? `lideres${ciclo}` : undefined}>
+                    {[0, 1, 2].map((i) => {
+                      const l = vl[i];
+                      const av = imagen(avatares.find((a) => a.ciclo === ciclo && a.posicion === i + 1)?.imagen);
+                      return (
+                        <div class={`flex flex-col bg-white shadow-lg overflow-hidden rounded-brand ${l ? 'hover:shadow-brand-lg transition-shadow ' : ''}border-b-2 border-brand-gold`}>
+                          <div class="w-full h-16 md:h-28 lg:h-32 flex items-center justify-center overflow-hidden border-b-2 border-brand-gold">
+                            {av
+                              ? <Image src={av} alt={l?.jugador ?? `Posición ${i + 1}`} width={400} class="h-full object-cover object-center" />
+                              : <div class="w-full h-full flex items-center justify-center"><span class="text-gray-400 text-lg">{l?.jugador ?? '-'}</span></div>}
+                          </div>
+                          {l ? (
+                            <div class="flex flex-col items-center justify-center py-2 px-2">
+                              <h5 class="text-lg font-bold text-brand-blue text-center mb-1">{l.jugador}</h5>
+                              <p class="mb-1 text-center">
+                                <span class="text-sm text-gray-600 font-bold" data-translate={puestos[i][0]}>{t(puestos[i][0])}</span>
+                                <span class="text-sm text-gray-600"> {l.goles} </span>
+                                <span class="text-sm text-gray-600" data-translate="goles_description">{t('goles_description')}</span>
+                              </p>
+                              <p class="text-sm text-gray-600 text-center mb-1">{l.equipo}</p>
+                            </div>
+                          ) : (
+                            <div class="relative flex flex-col items-center justify-center py-2 px-2">
+                              <div class="flex flex-col items-center gap-1">
+                                <h5 class="text-lg font-bold text-brand-blue text-center">-</h5>
+                                <p class="text-sm text-gray-600 text-center">-</p>
+                                <p class="text-sm text-gray-600 text-center">{['Primer', 'Segundo', 'Tercero'][i]} Puesto</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div class="rounded-brand overflow-hidden shadow-lg mt-8">
+                  <div class="overflow-scroll max-h-[32rem]">
+                    <table class="w-full min-w-full" style="border-collapse: collapse;">
+                      <thead class="sticky top-0">
+                        <tr style="background-color: #B30000; color: white;">
+                          <th class={th} style="width: 25%; text-align: left; padding-left: 1rem;" data-translate="table_ciclo">CICLO</th>
+                          <th class={th} style="width: 25%; text-align: left; padding-left: 1rem;" data-translate="table_team_name">EQUIPO</th>
+                          <th class={th} style="width: 25%; text-align: left; padding-left: 1rem;" data-translate="table_course">CURSO</th>
+                          <th class={th} style="width: 25%; text-align: left; padding-left: 1rem;" data-translate="table_player">JUGADOR</th>
+                          <th class={th} style="width: 25%; text-align: center; padding-right: 1rem;" data-translate="table_goals">GOLES</th>
+                        </tr>
+                      </thead>
+                      <tbody class="h-96 overflow-y-auto">
+                        {vl.length === 0 ? (
+                          <tr class="bg-white border-gray-100 border border-b">
+                            <td colspan="5" class="py-8 px-4 text-center">
+                              <p><span class="text-gray-700 text-xs sm:text-md md:text-lg lg:text-lg" data-translate={vista !== 'TODOS' ? 'table_no_scorers_registered' : ciclo === 'ESO' ? 'table_no_scorers_yet' : 'table_no_scorers_registered_yet'}>{t(vista !== 'TODOS' ? 'table_no_scorers_registered' : ciclo === 'ESO' ? 'table_no_scorers_yet' : 'table_no_scorers_registered_yet')}</span></p>
+                            </td>
+                          </tr>
+                        ) : vl.map((l) => (
+                          <tr class="bg-white border-gray-100 border border-b">
+                            <td class="py-2 px-2 md:py-4 md:px-4" style="text-align: left; padding-left: 1rem;"><span class="font-medium uppercase text-xs sm:text-md md:text-lg lg:text-lg">{l.ciclo}</span></td>
+                            <td class="py-2 px-2 md:py-4 md:px-4" style="text-align: left; padding-left: 1rem;"><span class="font-medium uppercase text-xs sm:text-md md:text-lg lg:text-lg">{l.equipo}</span></td>
+                            <td class="py-2 px-2 md:py-4 md:px-4" style="text-align: left; padding-left: 1rem;"><span class="font-medium text-xs sm:text-md md:text-lg lg:text-lg">{l.curso}</span></td>
+                            <td class="py-2 px-2 md:py-4 md:px-4" style="text-align: left; padding-left: 1rem;"><span class="font-medium text-xs sm:text-md md:text-lg lg:text-lg">{l.jugador}</span></td>
+                            <td class="py-2 px-2 md:py-4 md:px-4 text-center font-medium text-xs sm:text-md md:text-lg lg:text-lg" style="padding-right: 1rem;">{l.goles}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  })}
+</section>

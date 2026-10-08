@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import { imagen } from '../lib/imagenes';
+import { t } from '../lib/i18n';
+import { ddmmyyyy } from '../lib/fechas';
+const { noticias } = Astro.props;
+const MAX = 80;
+const recorte = (txt: string) => (txt.length > MAX ? txt.slice(0, MAX) + '...' : txt);
+// Distribución de las fotos dentro de la ventana de la noticia (igual que el sitio original)
+const dispo = {
+  1: { cont: 'grid gap-4', cols: [[['h-80 md:h-auto max-w-full object-cover rounded-brand']]] },
+  2: { cont: 'grid md:grid-cols-2 gap-4', cols: [[['h-80 object-cover rounded-brand']], [['h-80 max-w-full object-cover rounded-brand']]] },
+  3: { cont: 'grid grid-cols-2 gap-4', cols: [[['h-80 object-cover rounded-brand']], [['h-auto max-w-full object-cover rounded-brand'], ['h-60 object-cover rounded-brand']]] },
+  4: { cont: 'grid grid-cols-2 gap-4', cols: [[['h-80 object-cover rounded-brand'], ['h-auto max-w-full object-cover rounded-brand']], [['h-auto max-w-full object-cover rounded-brand'], ['h-80 object-cover rounded-brand']]] },
+  5: { cont: 'grid grid-cols-2 gap-4', cols: [[['h-auto max-w-full object-cover rounded-brand'], ['h-auto max-w-full object-cover rounded-brand']], [['h-auto max-w-full object-cover rounded-brand'], ['h-auto max-w-full object-cover rounded-brand'], ['h-auto max-w-full object-cover rounded-brand']]] },
+};
+---
+<section id="noticiasSection" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6 fondoC" data-navegador="noticias">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_news_title">{t('section_news_title')}</h3>
+    <div class="flex items-center gap-2 bg-white border border-gray-300 rounded-brand px-4 py-2 shadow-sm">
+      <button id="noticias-anterior" class="text-gray-600 hover:text-brand-blue transition-colors" aria-label="Día anterior" data-nav="anterior">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      <div class="flex items-center text-center gap-2 px-3">
+        <svg class="w-5 h-5 text-gray-600 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+        <span id="noticias-fecha-label" class="text-xs sm:text-md md:text-lg font-bold text-gray-800" data-etiqueta>...</span>
+      </div>
+      <button id="noticias-siguiente" class="text-gray-600 hover:text-brand-blue transition-colors" aria-label="Día siguiente" data-nav="siguiente">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+  </div>
+  <div id="noticias" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 mt-6" data-lista>
+    {noticias.map((n) => {
+      const portada = imagen(n.imagenes[0]);
+      return (
+        <article class="noticia-card bg-transparent shadow-lg ring-1 ring-black/5 rounded-brand overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer hidden" data-fecha={n.fecha} data-noticia={n.id}>
+          {portada && <Image src={portada} alt={n.titulo} width={1000} class="w-full h-64 md:h-90 lg:h-96 object-contain" loading="lazy" />}
+          <div class="p-6">
+            <div class="flex items-center justify-between">
+              <span class="text-xs sm:text-sm font-medium bg-gray-100 px-3 py-1 rounded-brand">{ddmmyyyy(n.fecha)}</span>
+              <span class="text-xs sm:text-sm font-medium bg-gray-100 px-3 py-1 rounded-brand">{n.autor}</span>
+            </div>
+            <h3 class="text-sm md:text-lg lg:text-xl font-bold mt-3 mb-3">{n.titulo}</h3>
+            <p class="mb-4 text-xs sm:text-sm leading-relaxed">{recorte(n.plano)}</p>
+            {n.plano.length > MAX && <div class="flex justify-end mt-2"><span class="text-xs sm:text-sm font-medium bg-gray-100 px-3 py-1 rounded-brand text-brand-blue hover:text-brand-red" data-translate="msg_read_more">{t('msg_read_more')}</span></div>}
+          </div>
+          {/* Contenido completo (se muestra en la ventana al hacer clic) */}
+          <template data-detalle>
+            <div class="flex flex-col lg:flex-row items-start justify-center gap-8">
+              <div class="flex flex-col items-start justify-center gap-10 flex-1">
+                <div class="flex flex-col sm:flex-row items-center justify-start gap-6">
+                  <span class="text-xs sm:text-sm font-medium py-1">{ddmmyyyy(n.fecha)}</span>
+                  <span class="text-xs sm:text-sm font-medium py-1">{n.autor}</span>
+                </div>
+                <h3 class="text-sm md:text-lg lg:text-xl font-bold">{n.titulo}</h3>
+                <div class="text-xs sm:text-sm leading-relaxed noticia-cuerpo" set:html={n.html} />
+              </div>
+              <div class="flex-1 my-auto mx-auto">
+                {n.imagenes.length > 0 && (() => {
+                  const d = dispo[Math.min(n.imagenes.length, 5)];
+                  let k = 0;
+                  return (
+                    <div class={d.cont}>
+                      {d.cols.map((col) => (
+                        <div class="grid gap-4">
+                          {col.map(([clase]) => { const m = imagen(n.imagenes[k++]); return m && <Image src={m} alt={n.titulo} width={800} class={clase} loading="lazy" />; })}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          </template>
+        </article>
+      );
+    })}
+    <p class="text-gray-700 col-span-full text-center text-xs sm:text-md md:text-lg hidden" data-vacio data-translate="msg_no_news_description">{t('msg_no_news_description')}</p>
+  </div>
+
+  {/* Ventana (modal) de noticia */}
+  <div id="noticia-dialog-backdrop" class="fixed inset-0 z-[9999] grid h-screen w-screen place-items-center bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-opacity duration-300" style="opacity: 0; pointer-events: none;">
+    <div id="noticia-dialog-box" class="relative m-4 p-0 w-full max-w-6xl rounded-lg bg-white shadow-lg transition-all duration-300" style="opacity: 0; transform: translateY(-56px); pointer-events: none;">
+      <div class="noticia-dialog-content overflow-y-auto">
+        <div class="noticia-dialog-header">
+          <h3 class="text-sm md:text-lg lg:text-xl font-bold m-auto px-6" data-translate="noticia">{t('noticia')}</h3>
+          <button class="noticia-dialog-close mr-6" aria-label="Cerrar" type="button" data-cerrar>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <div class="noticia-dialog-body p-6 md:p-10" id="noticia-dialog-body"></div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+---
+import Tabs from './Tabs.astro';
+import TablaLeyenda from './TablaLeyenda.astro';
+import { t } from '../lib/i18n';
+const { torneo, ciclos } = Astro.props;
+const th = 'font-bold uppercase py-2 px-2 md:py-4 md:px-4 text-xs sm:text-md md:text-lg lg:text-lg';
+const td = 'py-2 px-2 md:py-4 md:px-4 text-center font-medium text-xs sm:text-md md:text-lg lg:text-lg';
+const dg = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
+---
+<section id="clasificacionGrupal" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6" data-filtro="ciclo">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_classification_title">{t('section_classification_title')}</h3>
+    <Tabs id="selector-clasificacion-grupal" />
+  </div>
+  {ciclos.map((ciclo) => (
+    <div id={`clasificacionGrupal${ciclo}`} class="overflow-x-auto mb-6 mt-6" data-ciclo={ciclo}>
+      {Object.entries(torneo.grupos).filter(([, g]) => g.tabla[0]?.equipo.ciclo === ciclo).map(([grupo, g]) => (
+        <div class="mb-8">
+          <div class="flex items-center gap-2">
+            <h4 class="text-3xl font-bold text-brand-gold flex items-center gap-2">{ciclo}</h4>
+            <h4 class="text-3xl font-bold text-brand-red flex items-center gap-2"> <span class="text-3xl font-bold text-brand-red flex items-center" data-translate="group">{t('group')}</span> {grupo}</h4>
+          </div>
+          <div class="rounded-brand overflow-hidden shadow-lg">
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-full" style="border-collapse: collapse;">
+                <thead class="sticky top-0">
+                  <tr style="background-color: #B30000; color: white;">
+                    <th class={th} style="text-align: left; padding-left: 1rem;" data-translate="table_position">POS</th>
+                    <th class={th} style="text-align: left; padding-left: 1rem;" data-translate="table_team">EQUIPO</th>
+                    <th class={th} style="text-align: center;" data-translate="table_played">PJ</th>
+                    <th class={th} style="text-align: center;" data-translate="table_points">PTS</th>
+                    <th class={th} style="text-align: center;" data-translate="table_won">PG</th>
+                    <th class={th} style="text-align: center;" data-translate="table_drawn">PE</th>
+                    <th class={th} style="text-align: center;" data-translate="table_lost">PP</th>
+                    <th class={th} style="text-align: center;" data-translate="table_goals_for">GF</th>
+                    <th class={th} style="text-align: center;" data-translate="table_goals_against">GC</th>
+                    <th class={th} style="text-align: center;" data-translate="table_goals_diff">DG</th>
+                    <th class={th} style="text-align: center; padding-right: 1rem;">FPY</th>
+                  </tr>
+                </thead>
+                <tbody class="h-96 overflow-y-auto">
+                  {g.tabla.map((f, i) => (
+                    <tr class="bg-white border-gray-100 border border-b">
+                      <td class="py-2 px-2 md:py-4 md:px-4 font-medium" style="text-align: left; padding-left: 1rem; color: #333333;">{f.PJ > 0 ? String(i + 1).padStart(2, '0') : ''}</td>
+                      <td class="py-2 px-2 md:py-4 md:px-4" style="text-align: left; padding-left: 1rem;">
+                        <div class="flex items-center gap-3">
+                          <span class="font-medium uppercase text-xs sm:text-md md:text-lg lg:text-lg">{f.equipo.nombre}</span>
+                        </div>
+                      </td>
+                      <td class={td}>{f.PJ}</td><td class={td}>{f.Pts}</td><td class={td}>{f.PG}</td><td class={td}>{f.PE}</td><td class={td}>{f.PP}</td>
+                      <td class={td}>{f.GF}</td><td class={td}>{f.GC}</td><td class={td}>{dg(f.DG)}</td>
+                      <td class={td} style="color: #333333; padding-right: 1rem;">{f.FairPlay}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <TablaLeyenda incluyeFairPlay />
+          </div>
+        </div>
+      ))}
+    </div>
+  ))}
+</section>

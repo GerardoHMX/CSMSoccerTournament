@@ -1,0 +1,47 @@
+---
+import Logo from './Logo.astro';
+import { t } from '../lib/i18n';
+const { equipos, ciclos } = Astro.props;
+const colores = ['brand-red', 'brand-orange', 'brand-gold', 'brand-green', 'brand-blue'];
+const grupos = ['A', 'B', 'C', 'D'];
+---
+<section id="equipos" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6" data-filtro="equipos">
+  <div class="flex flex-col lg:flex-row items-center justify-between gap-4 my-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_teams_title">{t('section_teams_title')}</h3>
+    <div class="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
+      <ul class="nav nav-tabs w-full lg:w-80" id="selector-equipos" role="tablist">
+        <li class="nav-item" role="presentation"><button class="nav-link text-xs sm:text-md md:text-lg active" data-ciclo="TODOS" type="button" data-translate="filter_all">{t('filter_all')}</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link text-xs sm:text-md md:text-lg" data-ciclo="ESO" type="button" data-translate="filter_eso">ESO</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link text-xs sm:text-md md:text-lg" data-ciclo="BCH" type="button" data-translate="filter_bch">BCH</button></li>
+      </ul>
+      <ul class="nav nav-tabs w-full lg:w-80" id="selector-grupos-equipos" role="tablist">
+        <li class="nav-item" role="presentation"><button class="nav-link text-xs sm:text-md md:text-lg active" data-grupo="TODOS" type="button" data-translate="filter_all">{t('filter_all')}</button></li>
+        {grupos.map((g) => <li class="nav-item" role="presentation"><button class="nav-link text-xs sm:text-md md:text-lg" data-grupo={g} data-ciclo-grupo={equipos.find((e) => e.grupo === g)?.ciclo} type="button">{g}</button></li>)}
+      </ul>
+    </div>
+  </div>
+  {ciclos.map((ciclo) => (
+    <div class="w-full" id={`equipos${ciclo}`} data-ciclo={ciclo}>
+      {grupos.filter((g) => equipos.some((e) => e.ciclo === ciclo && e.grupo === g)).map((g) => (
+        <div class="w-full mb-6" data-grupo={g}>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {equipos.filter((e) => e.ciclo === ciclo && e.grupo === g).map((e, i) => (
+              <div class="p-2 bg-transparent shadow-lg ring-1 ring-black/5 border border-gray-200 rounded-brand hover:shadow-brand-md transition-shadow overflow-hidden">
+                <div class="flex flex-col items-center text-center">
+                  {e.logo
+                    ? <Logo ruta={e.logo} alt={e.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain mb-1" />
+                    : <div class={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-${colores[i % 5]} rounded-full flex items-center justify-center mb-1`}></div>}
+                  <h5 class="text-sm sm:text-md md:text-lg font-bold text-brand-text-dark mb-1 uppercase">{e.nombre}</h5>
+                  <p class="text-xs md:text-sm text-gray-600 leading-relaxed">
+                    <span class="text-xs md:text-sm leading-relaxed text-brand-gold" data-translate="group">{t('group')} </span> {e.grupo} -
+                    <span class="text-xs md:text-sm leading-relaxed text-brand-red" data-translate="course">{t('course')} </span> {e.curso}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  ))}
+</section>

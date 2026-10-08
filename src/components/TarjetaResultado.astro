@@ -1,0 +1,56 @@
+---
+// Tarjeta de un partido en "Jornadas" (fase de grupos o eliminatoria). Mismo HTML/clases que el sitio original.
+import Logo from './Logo.astro';
+import { t } from '../lib/i18n';
+import { ddmmyyyy } from '../lib/fechas';
+
+const { partido: p, porId, tipo } = Astro.props; // tipo: 'grupo' | 'eliminatoria'
+const local = porId.get(p.local ?? '');
+const visitante = porId.get(p.visitante ?? '');
+const fecha = p.fecha ? ddmmyyyy(p.fecha) : '';
+const estado = p.jugado ? 'jugado' : p.estado === 'cancelado' ? 'cancelado' : 'pendiente';
+const colorEstado = estado === 'jugado' ? 'text-brand-green' : estado === 'cancelado' ? 'text-red-500' : 'text-brand-gold';
+const gl = p.jugado ? p.goles_local : 0, gv = p.jugado ? p.goles_visitante : 0;
+const penalesL = p.jugado && (p.penales_local ?? 0) > 0 ? p.penales_local : null;
+const penalesV = p.jugado && (p.penales_visitante ?? 0) > 0 ? p.penales_visitante : null;
+const etiqueta = { cuartos: 'quarter_finals', semifinal: 'semifinals', tercer_puesto: 'third_and_fourth_place', final: 'final' }[p.fase as string];
+---
+{tipo === 'grupo' ? (
+  <div class="p-2 sm:p-6 md:p-8 bg-gray-100 bg-transparent shadow-lg ring-1 ring-black/5 border border-gray-200 rounded-brand hover:shadow-brand-md transition-shadow overflow-hidden ">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-1 lg:gap-2 mb-2">
+      <div class="flex flex-col items-center flex-1">
+        {local?.logo && <Logo ruta={local.logo} alt={local.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16  object-contain mb-2 md:mb-3 transition-transform duration-300 hover:scale-150" />}
+        <div class="text-xs md:text-sm text-gray-800 uppercase text-center break-words">{local?.nombre}</div>
+      </div>
+      <div class="flex justify-center items-center gap-1 flex-shrink-0 flex-1/2">
+        <span class="text-3xl">{gl}</span> <span class="text-3xl text-brand-gold">:</span> <span class="text-3xl">{gv}</span>
+      </div>
+      <div class="flex flex-col items-center flex-1">
+        {visitante?.logo && <Logo ruta={visitante.logo} alt={visitante.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16  object-contain mb-2 md:mb-3 transition-transform duration-300 hover:scale-150" />}
+        <div class="text-xs md:text-sm text-gray-800 uppercase text-center break-words">{visitante?.nombre}</div>
+      </div>
+    </div>
+    <div class="text-center text-xs sm:text-md md:text-lg text-gray-600 mt-2 uppercase border-t border-gray-200 pt-2">
+      <span class="text-center text-xs sm:text-md md:text-lg text-gray-600 mt-2 uppercase" data-translate="group">{t('group')}</span>{' '}{p.grupo} - <span class="text-center text-xs sm:text-md md:text-lg text-brand-red">{fecha}</span>{p.hora ? `, ${p.hora} hrs` : ''}, <span class={`text-center text-xs sm:text-md md:text-lg ${colorEstado} font-bold uppercase`} data-translate={`match_status_${estado}`}>{t(`match_status_${estado}`).toUpperCase()}</span>
+    </div>
+  </div>
+) : (
+  <div class="p-4 bg-transparent shadow-lg ring-1 ring-black/5 border border-gray-200 rounded-brand hover:shadow-brand-md transition-shadow overflow-hidden" style="background-color: #F5F5F5;">
+    <div class="flex items-center justify-between gap-6 mb-6">
+      <div class="flex flex-col items-center flex-1">
+        {local?.logo && <Logo ruta={local.logo} alt={local.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain mb-1 transition-transform duration-300 hover:scale-150" />}
+        <div class="text-xs sm:text-sm lg:text-md font-bold text-gray-800 uppercase text-center break-words">{local?.nombre ?? <span data-translate="to_define">{t('to_define')}</span>}</div>
+      </div>
+      <div class="text-3xl font-bold text-gray-800 flex flex-1/2 gap-1">
+        {gl} {penalesL !== null && <span class="text-center text-3xl text-brand-blue font-bold uppercase">({penalesL})</span>} <span class="text-3xl text-brand-gold">:</span> {gv} {penalesV !== null && <span class="text-center text-3xl text-brand-blue font-bold uppercase">({penalesV})</span>}
+      </div>
+      <div class="flex flex-col items-center flex-1">
+        {visitante?.logo && <Logo ruta={visitante.logo} alt={visitante.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain mb-1 transition-transform duration-300 hover:scale-150" />}
+        <div class="text-xs sm:text-sm lg:text-md font-bold text-gray-800 uppercase text-center break-words">{visitante?.nombre ?? <span data-translate="to_define">{t('to_define')}</span>}</div>
+      </div>
+    </div>
+    <div class="text-center text-xs sm:text-md md:text-lg text-gray-600 mt-2 uppercase border-t border-gray-200 pt-2">
+      <span class="text-center text-xs sm:text-md md:text-lg text-gray-600 mt-2 uppercase" data-translate={etiqueta}>{t(etiqueta)}</span> - <span class="text-center text-xs sm:text-md md:text-lg text-brand-red">{fecha}</span>{p.hora ? `, ${p.hora} hrs` : ''}, <span class={`text-center text-xs sm:text-md md:text-lg ${colorEstado} font-bold uppercase`} data-translate={`match_status_${estado}`}>{t(`match_status_${estado}`).toUpperCase()}</span>
+    </div>
+  </div>
+)}

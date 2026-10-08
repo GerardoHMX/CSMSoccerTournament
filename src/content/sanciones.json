@@ -1,0 +1,109 @@
+{
+  "jugadores": [
+    {
+      "equipo": "la-bubineta",
+      "jugador": "GONZALO R.",
+      "rojas": 0,
+      "amarillas": 2,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "RUBÉN P.",
+      "rojas": 0,
+      "amarillas": 2,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "JAVICHU G.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "ADRIÁN G.",
+      "rojas": 0,
+      "amarillas": 2,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "macarroneros",
+      "jugador": "MANUEL",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "ALONSO F.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "ALEX H.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "PATRICK S.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "recreativo-ferroviario",
+      "jugador": "CARLOS V.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "recreativo-ferroviario",
+      "jugador": "ERIC P.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "SERGIO V.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "JORGE S.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "CRISTOBAL P.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "ANTONIO R.",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "ISABEL",
+      "rojas": 0,
+      "amarillas": 1,
+      "suspendidos": 0
+    }
+  ]
+}

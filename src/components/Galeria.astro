@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import { imagen } from '../lib/imagenes';
+import { t } from '../lib/i18n';
+import { ddmmyyyy } from '../lib/fechas';
+const { galeria } = Astro.props;
+
+// Vídeo: enlace de Drive (…/file/d/ID/…) o de YouTube → dirección para incrustar
+function embed(u?: string) {
+  if (!u) return null;
+  const drive = u.match(/\/file\/d\/([\w-]+)/);
+  if (drive) return `https://drive.google.com/file/d/${drive[1]}/preview`;
+  const yt = u.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+  return null;
+}
+---
+<section id="galeriaSection" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6 bg-brand-bg-light" data-navegador="galeria">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_gallery_title">{t('section_gallery_title')}</h3>
+    <div class="flex items-center gap-2 bg-white border border-gray-300 rounded-brand px-4 py-2 shadow-sm">
+      <button id="galeria-anterior" class="text-gray-600 hover:text-brand-blue transition-colors" aria-label="Día anterior" data-nav="anterior">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      <div class="flex items-center text-center gap-2 px-3">
+        <svg class="w-5 h-5 text-gray-600 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+        <span id="galeria-fecha-label" class="text-xs sm:text-md md:text-lg font-bold text-gray-800" data-etiqueta>...</span>
+      </div>
+      <button id="galeria-siguiente" class="text-gray-600 hover:text-brand-blue transition-colors" aria-label="Día siguiente" data-nav="siguiente">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+  </div>
+  <div id="galeria" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 mt-6" data-lista>
+    {galeria.map((g) => {
+      const src = embed(g.video_url);
+      const img = imagen(g.imagen);
+      const pie = (g.titulo || g.fecha) && (
+        <div class="px-4">
+          <span class="text-xs sm:text-sm font-medium rounded-brand mr-2 inline-block">{ddmmyyyy(g.fecha)}</span>
+          {g.titulo && <h4 class="text-sm md:text-base font-bold text-brand-blue mr-2">{g.titulo}</h4>}
+        </div>
+      );
+      if (g.tipo === 'video' && src) {
+        return (
+          <div class="galeria-item shadow-lg ring-1 ring-black/5 rounded-brand overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-gray-100 hidden" data-fecha={g.fecha}>
+            <div class="w-full max-w-full mx-auto aspect-video">
+              <iframe class="w-full h-full border-0" src={src} loading="lazy" allow="autoplay; fullscreen" allowfullscreen title={g.titulo ?? 'Vídeo'}></iframe>
+            </div>
+            {pie}
+          </div>
+        );
+      }
+      return img && (
+        <div class="galeria-item shadow-lg ring-1 ring-black/5 rounded-brand overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer bg-gray-100 hidden" data-fecha={g.fecha} data-ampliar data-titulo={g.titulo ?? ''} data-etiqueta-fecha={ddmmyyyy(g.fecha)}>
+          <Image src={img} alt={g.titulo ?? 'Imagen de galería'} width={900} class="w-full h-64 md:h-80 lg:h-96 object-cover transition-transform duration-300 hover:scale-105" loading="lazy" data-grande />
+          {pie}
+        </div>
+      );
+    })}
+    <p class="text-gray-700 col-span-full text-center text-xs sm:text-md md:text-lg hidden" data-vacio data-translate="msg_no_gallery_description">{t('msg_no_gallery_description')}</p>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+import Logo from './Logo.astro';
+import { t } from '../lib/i18n';
+import { url } from '../lib/url';
+const { torneo, porId } = Astro.props;
+const { campeon, subcampeon, tercero } = torneo.podio;
+const [c, s, r] = [campeon, subcampeon, tercero].map((id) => porId.get(id ?? ''));
+const completo = c && s && r;
+const puesto = (e, id, estilo) => (
+  { e, id, estilo }
+);
+const lugares = [
+  { e: c, id: 'primer', estilo: 'top: -40%; left: 35%;  width: 145px;' },
+  { e: s, id: 'segundo', estilo: 'bottom: 78%; left: 0%; width: 145px;' },
+  { e: r, id: 'tercer', estilo: 'bottom: 68%; right: 0%; width: 145px;' },
+];
+---
+<section id="podioSection" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6">
+  {completo && (
+    <div id="podio-confetti-wrapper" class="relative mt-8">
+      <div class="flex flex-col sm:flex-row items-start justify-between gap-4">
+        <h3 class="text-3xl md:text-4xl text-brand-blue font-bold uppercase" data-translate="section_podium_title">{t('section_podium_title')}</h3>
+      </div>
+      <div class="w-full py-8 flex justify-center items-center">
+        <div class="relative mx-auto">
+          <img src={url('img/podium.png')} class="object-contain mx-auto block" alt="Podio del Torneo" style="height: 250px; width: 460px;" />
+          {lugares.map((l) => (
+            <div id={`podio-${l.id}-puesto`} class="absolute flex flex-col items-center justify-center" style={l.estilo}>
+              <Logo ruta={l.e.logo} alt={l.e.nombre} class="w-12 h-12 object-contain" />
+              <div class="text-sm md:text-md font-bold text-gray-800 uppercase text-center break-words">{l.e.nombre}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <canvas id="canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 10;" aria-hidden="true"></canvas>
+    </div>
+  )}
+</section>
+{completo && <script>import '../scripts/confetti.js';</script>}

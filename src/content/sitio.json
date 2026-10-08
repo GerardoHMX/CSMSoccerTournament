@@ -1,0 +1,20 @@
+{
+  "torneo_nombre": "Al-Ándalus",
+  "torneo_anio": "2025-2026",
+  "torneo_descripcion": "Torneo escolar de Fútbol Sala Al-Ándalus",
+  "torneo_logo": "/src/assets/sitio/logo-torneo.png",
+  "colegio_nombre": "Colegio San Francisco de Asís",
+  "colegio_telefono1": "952 47 34 24",
+  "colegio_telefono2": "952 66 37 17",
+  "colegio_email": "administracion@colegiosanfranciscodeasis.com",
+  "colegio_direccion": "Plaza Maite Alcázar Zambrano, Urbanización El Coto.",
+  "colegio_localidad": "Mijas Costa",
+  "colegio_provincia": "Málaga",
+  "colegio_maps_url": "https://goo.gl/maps/Z9XU1Uv5AAixNX2s6",
+  "colegio_url": "https://colegiosanfranciscodeasis.com",
+  "colegio_logo": "/src/assets/sitio/logo-colegio.png",
+  "instagram_url": "https://www.instagram.com/colegiosfasismijas",
+  "ga_tracking_id": "G-2N3LTTCYQS",
+  "feedback_script_url": "https://script.google.com/macros/s/AKfycbw2qDTpfzO2Dx2rnZ0A-Cl_Rm6aATcOlO89M43rMlZPJ1z2g1bIYz8_1nqob_J8aOwa/exec",
+  "fairplay_suma_puntos": false
+}

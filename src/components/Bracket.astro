@@ -1,0 +1,96 @@
+---
+import Logo from './Logo.astro';
+import { t } from '../lib/i18n';
+const { torneo, porId } = Astro.props;
+const caja = 'bg-transparent shadow-lg ring-1 ring-black/5 overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-brand-gold rounded-brand min-w-[240px] w-[300px]';
+const delFase = (fase: string) => torneo.partidos.filter((p) => p.fase === fase).sort((a, b) => a.numero - b.numero);
+const hayEliminatorias = torneo.partidos.some((p) => p.fase !== 'grupos');
+const grupos = Object.entries(torneo.grupos).sort(([a], [b]) => a.localeCompare(b));
+const columnas = [
+  { fase: 'cuartos', clave: 'quarter_finals', sep: ' - ' },
+  { fase: 'semifinal', clave: 'semifinals', sep: ' ' },
+];
+---
+<section id="bracket" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_bracket_title">{t('section_bracket_title')}</h3>
+  </div>
+  <div id="bracket-container" class="overflow-x-auto mb-6 mt-6">
+    <div class="min-w-max py-2">
+      {hayEliminatorias && (
+        <div class="flex gap-8 items-center justify-center">
+          <div class="flex flex-col gap-6">
+            {grupos.map(([grupo, g]) => (
+              <div class={`${caja} p-3 lg:p-4`}>
+                <div class="text-center mb-3 lg:mb-4 text-xs sm:text-md md:text-lg tracking-wide uppercase"> <span class="font-bold mb-4 text-xs sm:text-md md:text-lg tracking-wide uppercase" data-translate="group">{t('group')}</span> {grupo} - <span class="text-brand-gold font-bold mb-4 text-xs sm:text-md md:text-lg tracking-wide uppercase">{g.tabla[0]?.equipo.ciclo}</span></div>
+                <div class="lg:space-y-2">
+                  {g.tabla.map((f) => (
+                    <div class="flex items-center justify-between py-2 lg:py-3 px-2 border-b border-brand-red last:border-0">
+                      <div class="flex items-center gap-3">
+                        {f.equipo.logo && <Logo ruta={f.equipo.logo} alt={f.equipo.nombre} ancho={64} class="w-8 h-8 object-contain transition-transform duration-300 hover:scale-150" />}
+                        <span class="font-semibold text-xs sm:text-md md:text-lg tracking-wide">{f.equipo.nombre}</span>
+                      </div>
+                      <span class="font-bold text-xs sm:text-md md:text-lg tracking-wide">{f.Pts}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {columnas.map((c) => delFase(c.fase).length > 0 && (
+            <div class="flex flex-col gap-12 justify-center">
+              {delFase(c.fase).map((p) => (
+                <div class={`${caja} p-3 lg:p-4`}>
+                  <div class="text-center mb-3 lg:mb-4"><span class="text-center font-bold mb-4 text-xs sm:text-md md:text-lg tracking-wide uppercase" data-translate={c.clave}>{t(c.clave)}</span>{c.sep}<span class="text-brand-gold text-xs sm:text-md md:text-lg tracking-wide">{p.ciclo}</span></div>
+                  <div class="space-y-2">
+                    {['local', 'visitante'].map((lado, i) => {
+                      const e = porId.get(p[lado] ?? '');
+                      const goles = lado === 'local' ? p.goles_local : p.goles_visitante;
+                      const pen = lado === 'local' ? p.penales_local : p.penales_visitante;
+                      return (
+                        <div class={`flex items-center justify-between py-2${i ? ' border-t border-brand-blue' : ''}`}>
+                          <div class="flex items-center gap-2">
+                            {e?.logo && <Logo ruta={e.logo} alt={e.nombre} ancho={64} class="w-8 h-8 object-contain transition-transform duration-300 hover:scale-150" />}
+                            <span class="font-medium text-xs sm:text-md md:text-lg tracking-wide">{e?.nombre ?? <span data-translate="to_define">{t('to_define')}</span>}</span>
+                          </div>
+                          <span class="font-bold text-xs sm:text-md md:text-lg tracking-wide">{p.jugado ? goles : (e && p.local && p.visitante ? 0 : '')} {p.jugado && (pen ?? 0) > 0 && <span class="text-center text-xs sm:text-md md:text-lg text-brand-blue">({pen})</span>}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+
+          {(delFase('final').length > 0 || delFase('tercer_puesto').length > 0) && (
+            <div class="flex flex-col gap-12 items-center justify-center">
+              {[['final', 'final', 'border-brand-gold'], ['tercer_puesto', 'third_and_fourth_place', 'border-brand-blue']].map(([fase, clave, sepColor]) => delFase(fase).map((p) => (
+                <div class={`${caja} p-4`}>
+                  <div class="text-center mb-3 lg:mb-4"><span class="text-center font-bold mb-4 text-xs sm:text-md md:text-lg tracking-wide uppercase" data-translate={clave}>{t(clave)}</span> <span class="text-brand-gold text-xl">{p.ciclo}</span></div>
+                  <div class="space-y-2">
+                    {['local', 'visitante'].map((lado, i) => {
+                      const e = porId.get(p[lado] ?? '');
+                      const goles = lado === 'local' ? p.goles_local : p.goles_visitante;
+                      const pen = lado === 'local' ? p.penales_local : p.penales_visitante;
+                      return (
+                        <div class={`flex items-center justify-between py-2${i ? ` border-t ${sepColor}` : ''}`}>
+                          <div class="flex items-center gap-2">
+                            {e?.logo && <Logo ruta={e.logo} alt={e.nombre} ancho={64} class="w-8 h-8 object-contain transition-transform duration-300 hover:scale-150" />}
+                            <span class="font-medium text-xs sm:text-md md:text-lg tracking-wide">{e?.nombre ?? <span data-translate="to_define">{t('to_define')}</span>}</span>
+                          </div>
+                          <span class="font-bold text-xs sm:text-md md:text-lg tracking-wide">{p.jugado ? goles : (e && p.local && p.visitante ? 0 : '')} {p.jugado && (pen ?? 0) > 0 && <span class="text-center text-xs sm:text-md md:text-lg text-brand-blue">({pen})</span>}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

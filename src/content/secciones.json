@@ -1,0 +1,154 @@
+{
+  "secciones": [
+    {
+      "id": "inicio",
+      "nombre": "INICIO",
+      "en_menu": true,
+      "visible": true
+    },
+    {
+      "id": "equipos",
+      "nombre": "EQUIPOS",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "jornadas",
+      "nombre": "JORNADAS",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "faseDeGruposESO",
+      "nombre": "FASE DE GRUPOS ESO",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "cuartosDeFinalESO",
+      "nombre": "CUARTOS DE FINAL ESO",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "semifinalESO",
+      "nombre": "SEMIFINAL ESO",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "tercerFinalPuestoESO",
+      "nombre": "TERCER PUESTO Y FINAL ESO",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "faseDeGruposBCH",
+      "nombre": "FASE DE GRUPOS BCH",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "cuartosDeFinalBCH",
+      "nombre": "CUARTOS DE FINAL BCH",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "semifinalBCH",
+      "nombre": "SEMIFINAL BCH",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "tercerFinalPuestoBCH",
+      "nombre": "TERCER PUESTO Y FINAL BCH",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "podioSection",
+      "nombre": "PODIO",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "clasificacion",
+      "nombre": "CLASIFICACIÓN",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "clasificacionGrupal",
+      "nombre": "CLASIFICACIÓN",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "bracket",
+      "nombre": "BRACKET",
+      "en_menu": true,
+      "visible": true
+    },
+    {
+      "id": "goleadoresSection",
+      "nombre": "LIDERES",
+      "en_menu": true,
+      "visible": true
+    },
+    {
+      "id": "sancionadosSection",
+      "nombre": "SANCIONADOS",
+      "en_menu": true,
+      "visible": true
+    },
+    {
+      "id": "lideresESO",
+      "nombre": "LIDERES ESO",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "lideresBCH",
+      "nombre": "LIDERES BCH",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "resultadosSection",
+      "nombre": "RESULTADOS",
+      "en_menu": true,
+      "visible": true
+    },
+    {
+      "id": "noticiasSection",
+      "nombre": "NOTICIAS",
+      "en_menu": true,
+      "visible": true
+    },
+    {
+      "id": "proximosPartidos",
+      "nombre": "PROXIMOS",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "carouselSection",
+      "nombre": "BANNER",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "accordionSection",
+      "nombre": "ACCORDION",
+      "en_menu": false,
+      "visible": true
+    },
+    {
+      "id": "galeriaSection",
+      "nombre": "GALERíA",
+      "en_menu": false,
+      "visible": true
+    }
+  ]
+}

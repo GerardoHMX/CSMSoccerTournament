@@ -1,0 +1,709 @@
+/* Import fonts */
+@font-face {
+    font-family: 'LaLiga Headline VF';
+    src: url('/fonts/LALIGAHeadlineVF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LaLiga Headline STD Bold';
+    src: url('/fonts/LALIGAHeadline-StdBold.woff');
+    src: url('/fonts/LALIGAHeadline-StdBold.woff2'), url('/fonts/LALIGAHeadline-StdBold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LaLiga Players';
+    src: url('/fonts/LALIGAPlayers-Regular.woff');
+    src: url('/fonts/LALIGAPlayers-Regular.woff2'), url('/fonts/LALIGAPlayers-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LaLiga Text';
+    src: url('/fonts/LALIGAText-Regular.woff');
+    src: url('/fonts/LALIGAText-Regular.woff2'), url('/fonts/LALIGAText-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'LaLiga Text Bold';
+    src: url('/fonts/LALIGAHeadline-StdBold.woff') format('woff');
+    src: url('/fonts/LALIGAHeadline-StdBold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'font-laliga';
+    src: url('/fonts/font-laliga.eot?twoxy9');
+    src: url('/fonts/font-laliga.eot?twoxy9#iefix') format('embedded-opentype'),
+        url('/fonts/font-laliga.woff2?twoxy9') format('woff2'),
+        url('/fonts/font-laliga.ttf?twoxy9') format('truetype'),
+        url('/fonts/font-laliga.woff?twoxy9') format('woff'),
+        url('/fonts/font-laliga.svg?twoxy9#font-laliga') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+*,
+::before,
+::after {
+    font-family: 'LaLiga Text', 'Roboto', sans-serif;
+    font-size: 1.125rem; /* 18px con base 16px; evita diferencias dev/producción */
+    letter-spacing: 0.1em;
+    line-height: 1.1;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Clase para iconos de font-laliga */
+.icon-laliga,
+.icon-laliga::before,
+.icon-laliga::after {
+    font-family: 'font-laliga' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+    font-size: 16px; /* Base fija para rem consistente en todos los entornos */
+    --brand-red: #c62828;
+    --brand-orange: #ff5722;
+    --brand-gold: #e5af24;
+    --brand-green: #2e7d32;
+    --brand-blue: #1565c0;
+    --brand-gray: #bababa;
+    --brand-white: #ffffff;
+    --bg-light: #f8f9fa;
+    --bg-dark: #212529;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius: 0px;
+    --hero-height: auto;
+    --sidebar-width: 256px;
+}
+
+h1,
+h1::before,
+h1::after,
+h2,
+h2::before,
+h2::after {
+    font-family: 'Pattaya', Arial, Helvetica, sans-serif;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+h3,
+h3::before,
+h3::after,
+h4,
+h4::before,
+h4::after
+{
+    text-transform: uppercase ;
+    font-family: "LaLiga Headline VF", 'LaLiga Headline VF', sans-serif;
+    font-variation-settings: "wght" 600, "wdth" 540 ;
+}
+
+.hero-section {
+    width: 100%;
+    background-color: var(--brand-red);
+    background-image:
+        url("/img/pattern.svg"),
+        url("/img/pattern.svg");
+    background-size: 80%;
+    background-repeat: no-repeat, no-repeat;
+    background-position: left top, right 60%;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.fondoA {
+    width: 100%;
+    background-color: var(--brand-gray);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+        url("/img/pattern.svg");
+    background-size: 180%, 180%;
+    background-repeat: no-repeat, no-repeat;
+    background-position: left, left;
+    position: relative;
+}
+
+.fondoB {
+    width: 100%;
+    background-color: var(--brand-gray);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.76)),
+        url("/img/pattern.svg");
+    background-size: 180%, 180%;
+    background-repeat: no-repeat, no-repeat;
+    background-position: left, left;
+    position: relative;
+}
+
+.fondoC {
+    width: 100%;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.76)),
+        url("/img/dots.png");
+    background-size: 50%, 30%;
+    background-repeat: repeat, repeat;
+    background-position: left, right;
+    position: relative;
+}
+
+.fondoD {
+    width: 100%;
+    background: linear-gradient(135deg, #f3f3f3 25%, transparent 25%) -23px 0/ 64px 46px, linear-gradient(315deg, #f7f7f7 25%, transparent 25%) 23px 0/ 36px 36px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+/* Layout principal */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Clase reutilizable para efecto glassmorphism */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-effect:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos coherentes para elementos con bg-transparent shadow-lg ring-1 ring-black/5 */
+.bg-transparent.shadow-lg.ring-1.ring-black\/5,
+[class*="bg-transparent"][class*="shadow-lg"][class*="ring-1"][class*="ring-black/5"] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Contenedor del select móvil */
+.md\:hidden.w-full.bg-transparent,
+div[class*="md:hidden"][class*="w-full"],
+div:has(#menuMovil) {
+    background: rgba(188, 22, 28, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.masthead {
+    background: url("/img/lines.png") rgba(0, 0, 0, 0) repeat;
+    background-color: var(--brand-white);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Contenido principal */
+#mainContent {
+    width: 100%;
+    flex: 1;
+}
+
+/* Transiciones suaves para secciones */
+.section {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section.hidden {
+    display: none;
+}
+
+
+#mainContent::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+#mainContent::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: var(--border-radius);
+}
+
+#mainContent::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Asegurar que las secciones ocupen el espacio disponible */
+.section {
+    padding: 1rem 0;
+    width: 100%;
+}
+
+/* Estilos personalizados para nav-tabs */
+.nav-tabs {
+    border-bottom: 2px solid var(--brand-blue);
+    display: flex;
+}
+
+.nav-tabs .nav-item {
+    flex: 1;
+    flex-shrink: 0;
+    min-width: 0;
+    display: flex;
+}
+
+.nav-tabs .nav-link text-xs sm:text-md md:text-lg {
+    color: #1a1a1a;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-tabs .nav-link text-xs sm:text-md md:text-lg:hover {
+    color: var(--brand-blue);
+    border-bottom-color: var(--brand-blue);
+    background-color: rgba(21, 101, 192, 0.05);
+}
+
+.nav-tabs .nav-link text-xs sm:text-md md:text-lg.active {
+    color: var(--brand-blue);
+    background-color: transparent;
+    border-bottom: 3px solid var(--brand-blue);
+    font-weight: 700;
+}
+
+/* Mejoras adicionales para el layout */
+@media (max-width: 767px) {
+
+    /* Estilos específicos para móvil */
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+
+    .nav-tabs .nav-item {
+        flex: 1 0 0;
+        min-width: 90px;
+    }
+
+    .nav-tabs .nav-link text-xs sm:text-md md:text-lg {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.5rem;
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .nav-tabs .nav-item {
+        min-width: 80px;
+    }
+
+    .nav-tabs .nav-link text-xs sm:text-md md:text-lg {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.4rem;
+    }
+}
+
+/* Estilos para el carrusel */
+#carousel-container {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#carousel-container>div.overflow-hidden {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#carousel-track {
+    display: flex;
+    gap: 0.5rem;
+    will-change: transform;
+    align-items: stretch;
+}
+
+.carousel-card {
+    transition: transform 0.3s ease;
+}
+
+.carousel-card:hover {
+    transform: translateY(-4px);
+}
+
+.carousel-indicator {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicator:focus {
+    outline: 2px solid var(--brand-blue);
+    outline-offset: 2px;
+}
+
+#carousel-prev {
+    left: 1rem;
+}
+
+#carousel-next {
+    right: 1rem;
+}
+
+#carousel-prev,
+#carousel-next {
+    transition: all 0.3s ease;
+}
+
+#carousel-prev:hover:not(:disabled),
+#carousel-next:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.1);
+}
+
+#carousel-prev:disabled,
+#carousel-next:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+@media (max-width: 767px) {
+    #carousel-prev {
+        left: 0.5rem;
+    }
+
+    #carousel-next {
+        right: 0.5rem;
+    }
+
+    #carousel-prev,
+    #carousel-next {
+        padding: 0.5rem;
+    }
+
+    #carousel-prev svg,
+    #carousel-next svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+
+/* Preloader fondo y centrado */
+#preloader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+}
+
+/* Animaciones del balón */
+.loader svg {
+    width: 150px;
+    height: 150px;
+    animation: spin 2s linear infinite, bounce 1s ease-in-out infinite, moveX 4s ease-in-out infinite;
+    transform-origin: center bottom;
+}
+
+/* Rotación constante */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Rebote vertical */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-30px);
+    }
+}
+
+/* Movimiento horizontal */
+@keyframes moveX {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(50px);
+    }
+}
+
+/* Estilos para el acordeón */
+.accordion {
+    border: none;
+}
+
+.accordion-item {
+    border-radius: var(--border-radius);
+    background-color: var(--brand-white);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.accordion-item:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.accordion-button {
+    background-color: var(--brand-white) !important;
+    color: #1a1a1a !important;
+    font-weight: 600;
+    padding: 1.25rem 1.5rem;
+    border: none;
+    box-shadow: none;
+    transition: var(--transition);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #8f1c1c !important;
+    color: #ffffff !important;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.accordion-button:focus {
+    border-color: var(--brand-blue) !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:hover {
+    background-color: rgba(21, 101, 192, 0.1) !important;
+    color: var(--brand-blue) !important;
+}
+
+.accordion-button:not(.collapsed):hover {
+    background-color: #c62829 !important;
+    color: #ffffff !important;
+}
+
+.accordion-body {
+    padding: 1.5rem !important;
+    background-color: var(--brand-white) !important;
+    color: #1f2937 !important;
+}
+
+.accordion-body div,
+.accordion-body p,
+.accordion-body li,
+.accordion-body ul {
+    color: #1f2937 !important;
+}
+
+.accordion-body .text-gray-800,
+.accordion-body div.text-gray-800,
+.accordion-body p.text-gray-800,
+.accordion-body li.text-gray-800,
+.accordion-body h3.text-gray-800,
+.accordion-body span.text-gray-800 {
+    color: #1f2937 !important;
+}
+
+.accordion-body .text-brand-blue,
+.accordion-body span.text-brand-blue {
+    color: var(--brand-blue) !important;
+}
+
+.accordion-body .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.accordion-collapse {
+    transition: height 0.35s ease;
+}
+
+.accordion-collapse.show {
+    display: block !important;
+    visibility: visible !important;
+}
+
+.accordion-collapse.collapse:not(.show) {
+    display: none;
+}
+
+.accordion-collapse.collapsing {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.35s ease;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 767px) {
+    .accordion-button {
+        padding: 1rem 1.25rem;
+    }
+
+    .accordion-body {
+        padding: 1.25rem;
+    }
+}
+
+/* Responsive: mostrar accordion en móviles, carousel en pantallas grandes */
+#carouselSection {
+    display: none;
+}
+
+#accordionSection {
+    display: block;
+}
+
+@media (min-width: 768px) {
+    #carouselSection {
+        display: block;
+    }
+
+    #accordionSection {
+        display: none;
+    }
+}
+
+/* Estilos para el diálogo de detalle de noticias - Material Tailwind */
+[data-dialog-backdrop="noticia-dialog"] {
+    z-index: 999;
+}
+
+[data-dialog="noticia-dialog"] {
+    max-width: 1200px;
+    max-height: 95vh;
+    width: 90%;
+}
+
+.noticia-dialog-content {
+    background: white;
+    border-radius: var(--border-radius);
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.noticia-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0.3rem;
+    border-bottom: 2px solid var(--brand-blue);
+    background: var(--brand-white);
+    flex-shrink: 0;
+}
+
+.noticia-dialog-header h3 {
+    flex: 1;
+    margin: 0;
+    padding-right: 1rem;
+    color: var(--brand-blue);
+}
+
+.noticia-dialog-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--brand-text-dark);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+}
+
+.noticia-dialog-close:hover {
+    background: rgba(198, 40, 40, 0.1);
+    color: var(--brand-red);
+    transform: rotate(90deg);
+}
+
+.noticia-dialog-body {
+    max-height: calc(95vh - 120px);
+}
+
+.noticia-dialog-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+
+.noticia-dialog-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.noticia-dialog-texto {
+    flex: 1;
+}
+/* ===== Bases del torneo (contenido Markdown editable desde el CMS) ===== */
+.bases-md { display: flex; flex-direction: column; gap: 1.5rem; flex: 1 1 0%; }
+.bases-md > * { margin: 0; }
+.bases-md strong { color: #1565c0; font-weight: 700; }
+.bases-md p, .bases-md li { font-size: 1rem; line-height: 1.25rem; }
+.bases-md h3 { font-size: 1.25rem; line-height: 1.5rem; font-weight: 700; text-align: center; margin: 0 0 .75rem; }
+@media (min-width: 768px) { .bases-md h3 { font-size: 1.5rem; line-height: 2rem; } }
+.bases-md ul { margin-top: .5rem; }
+.bases-md--carousel p, .bases-md--carousel li { font-weight: 700; }
+.bases-md--acordeon { color: #1f2937; }
+.bases-md--acordeon h3 { font-size: 1rem; font-weight: 600; text-align: left; text-transform: none; font-variation-settings: normal; margin: 0; }
+.bases-md--centrado { align-items: center; justify-content: center; margin-top: 1rem; }
+.bases-md--centrado p { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; }

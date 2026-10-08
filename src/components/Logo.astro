@@ -1,0 +1,8 @@
+---
+// Logo de un equipo, optimizado por Astro (tamaño máximo mostrado: 64px → se genera a 128px para pantallas retina).
+import { Image } from 'astro:assets';
+import { imagen } from '../lib/imagenes';
+const { ruta, alt = '', class: clase = '', ancho = 128 } = Astro.props;
+const img = imagen(ruta);
+---
+{img && <Image src={img} alt={alt} width={ancho} class={clase} />}

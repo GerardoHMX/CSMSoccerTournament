@@ -1,0 +1,73 @@
+---
+import Tabs from './Tabs.astro';
+import TarjetaResultado from './TarjetaResultado.astro';
+import { t } from '../lib/i18n';
+const { torneo, porId, ciclos, visible } = Astro.props;
+const grupos = ['A', 'B', 'C', 'D'];
+const delCiclo = (c: string, fase: string) => torneo.partidos.filter((p) => p.ciclo === c && p.fase === fase).sort((a, b) => a.numero - b.numero);
+---
+<section id="jornadas" class="w-full h-full flex flex-col overflow-hidden lg:bg-fill md:bg-cover px-6" data-filtro="ciclo">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 my-8">
+    <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase" data-translate="section_journeys_title">{t('section_journeys_title')}</h3>
+    <Tabs id="selector-jornadas" />
+  </div>
+  {ciclos.map((ciclo) => (
+    <div data-ciclo={ciclo}>
+      {/* Fase de grupos */}
+      {visible(`faseDeGrupos${ciclo}`) && (
+        <div id={`faseDeGrupos${ciclo}`} class="mb-6">
+          {grupos.map((g) => {
+            const lista = torneo.partidos.filter((p) => p.fase === 'grupos' && p.grupo === g && p.ciclo === ciclo).sort((a, b) => a.numero - b.numero);
+            return lista.length > 0 && (
+              <div class="w-full mb-6">
+                <div class="text-3xl py-3 font-bold">
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-3xl font-bold text-brand-gold flex items-center gap-2">{ciclo}</h4>
+                    <h4 class="text-3xl font-bold text-brand-red flex items-center gap-2"> <span class="text-3xl font-bold text-brand-red flex items-center" data-translate="group">{t('group')}</span> {g}</h4>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-6" id={`cards-per-group-${ciclo}-${g}`}>
+                  {lista.map((p) => <TarjetaResultado partido={p} porId={porId} tipo="grupo" />)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {/* Cuartos de final y semifinal */}
+      {[['cuartos', 'cuartosDeFinal', 'quarter_finals'], ['semifinal', 'semifinal', 'semifinals']].map(([fase, id, clave]) => {
+        const lista = delCiclo(ciclo, fase);
+        return visible(`${id}${ciclo}`) && lista.length > 0 && (
+          <div id={`${id}${ciclo}`} class="mb-6">
+            <div>
+              <div class="flex flex-row items-center gap-2">
+                <h4 class="text-3xl font-bold text-brand-gold mb-6 flex items-center gap-2">{ciclo}</h4>
+                <h4 class="text-3xl font-bold text-brand-red mb-6 flex items-center gap-2" data-translate={clave}>{t(clave)}</h4>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+                {lista.map((p) => <TarjetaResultado partido={p} porId={porId} tipo="eliminatoria" />)}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+      {/* Tercer puesto y final por ciclo: en este torneo enfrentan ESO contra BCH, así que solo se muestran si algún día se asigna ciclo */}
+      {visible(`tercerFinalPuesto${ciclo}`) && torneo.partidos.some((p) => (p.fase === 'tercer_puesto' || p.fase === 'final') && p.ciclo === ciclo) && (
+        <div id={`tercerFinalPuesto${ciclo}`} class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          {['tercer_puesto', 'final'].map((fase) => {
+            const lista = delCiclo(ciclo, fase);
+            return lista.length > 0 && (
+              <div>
+                <div class="flex flex-row items-center gap-2">
+                  <h4 class="text-3xl font-bold text-brand-gold mb-6 flex items-center gap-2">{ciclo}</h4>
+                  <h4 class="text-3xl font-bold text-brand-red mb-6 flex items-center gap-2">{fase === 'tercer_puesto' ? 'Tercer Puesto' : 'Primer Puesto'}</h4>
+                </div>
+                <div class="grid grid-cols-1">{lista.map((p) => <TarjetaResultado partido={p} porId={porId} tipo="eliminatoria" />)}</div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  ))}
+</section>

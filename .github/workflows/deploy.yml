@@ -1,0 +1,65 @@
+# Publica la web en GitHub Pages cada vez que hay cambios en la rama main
+# (tanto si los haces tú como si los guarda Pages CMS).
+name: Publicar web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permite lanzarlo a mano desde la pestaña "Actions"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Pruebas de la lógica (tabla de posiciones, cruces…)
+        run: npm test
+
+      - name: Calcular dirección del sitio
+        id: ruta
+        run: |
+          OWNER="${GITHUB_REPOSITORY_OWNER,,}"
+          REPO="${GITHUB_REPOSITORY#*/}"
+          echo "site=https://${OWNER}.github.io" >> "$GITHUB_OUTPUT"
+          if [ "${REPO,,}" = "${OWNER}.github.io" ]; then
+            echo "base=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/${REPO}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Construir la web
+        run: npm run build
+        env:
+          SITE_URL: ${{ steps.ruta.outputs.site }}
+          BASE_PATH: ${{ steps.ruta.outputs.base }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

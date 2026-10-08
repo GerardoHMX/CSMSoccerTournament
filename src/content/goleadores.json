@@ -1,0 +1,284 @@
+{
+  "jugadores": [
+    {
+      "equipo": "brrrr-brrrr-rastrillos",
+      "jugador": "LUCAS L.",
+      "goles": 12
+    },
+    {
+      "equipo": "brrrr-brrrr-rastrillos",
+      "jugador": "RODRIGO C.",
+      "goles": 1
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "GONZALO R.",
+      "goles": 10
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "ALBERTO R.",
+      "goles": 4
+    },
+    {
+      "equipo": "los-trece-larrys",
+      "jugador": "HUGO O.",
+      "goles": 1
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "CARLOS L.",
+      "goles": 13
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "LUCAS M.",
+      "goles": 2
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "RUBÉN P.",
+      "goles": 3
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "JUAN D.T.",
+      "goles": 4
+    },
+    {
+      "equipo": "los-pitufos-f-c",
+      "jugador": "HÉCTOR M.",
+      "goles": 1
+    },
+    {
+      "equipo": "los-pitufos-f-c",
+      "jugador": "CAYETANO M.",
+      "goles": 1
+    },
+    {
+      "equipo": "macarroneros",
+      "jugador": "DIEGO E.",
+      "goles": 3
+    },
+    {
+      "equipo": "macarroneros",
+      "jugador": "ANTONIO M.",
+      "goles": 2
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "FERNANDO N.",
+      "goles": 1
+    },
+    {
+      "equipo": "rayo-carabinero-f-c",
+      "jugador": "ÁLVARO B.",
+      "goles": 1
+    },
+    {
+      "equipo": "potrillos-f-c",
+      "jugador": "MIKEL R.",
+      "goles": 1
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "JAVIER B.",
+      "goles": 4
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "FRAN B.",
+      "goles": 1
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "RUBÉN M.",
+      "goles": 2
+    },
+    {
+      "equipo": "la-bubineta",
+      "jugador": "ALEJANDRO H.",
+      "goles": 1
+    },
+    {
+      "equipo": "brrrr-brrrr-rastrillos",
+      "jugador": "DAVID C.",
+      "goles": 1
+    },
+    {
+      "equipo": "brrrr-brrrr-rastrillos",
+      "jugador": "MATEO J.",
+      "goles": 1
+    },
+    {
+      "equipo": "brrrr-brrrr-rastrillos",
+      "jugador": "DARIO B.",
+      "goles": 1
+    },
+    {
+      "equipo": "brrrr-brrrr-rastrillos",
+      "jugador": "PABLO A.",
+      "goles": 2
+    },
+    {
+      "equipo": "macarroneros",
+      "jugador": "DANTE G.",
+      "goles": 1
+    },
+    {
+      "equipo": "los-pitufos-f-c",
+      "jugador": "CARLOS G.",
+      "goles": 1
+    },
+    {
+      "equipo": "potrillos-f-c",
+      "jugador": "BLAS R.",
+      "goles": 2
+    },
+    {
+      "equipo": "los-trece-larrys",
+      "jugador": "NICOLÁS",
+      "goles": 1
+    },
+    {
+      "equipo": "los-trece-larrys",
+      "jugador": "ÁLVARO B.",
+      "goles": 1
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "ADRIÁN G.",
+      "goles": 6
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "EMIL M.",
+      "goles": 2
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "JAVI R.",
+      "goles": 1
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "JAVICHU G.",
+      "goles": 6
+    },
+    {
+      "equipo": "tecno-bokerones-f-c",
+      "jugador": "RICARDO T.",
+      "goles": 2
+    },
+    {
+      "equipo": "tecno-bokerones-f-c",
+      "jugador": "RAFA C.",
+      "goles": 4
+    },
+    {
+      "equipo": "tecno-bokerones-f-c",
+      "jugador": "HUGO C.",
+      "goles": 1
+    },
+    {
+      "equipo": "tecno-bokerones-f-c",
+      "jugador": "JUAN H.",
+      "goles": 2
+    },
+    {
+      "equipo": "tecno-bokerones-f-c",
+      "jugador": "ALBERTO M.",
+      "goles": 1
+    },
+    {
+      "equipo": "tiesos-f-c",
+      "jugador": "ANTONIO G.",
+      "goles": 4
+    },
+    {
+      "equipo": "tiesos-f-c",
+      "jugador": "PABLO L.",
+      "goles": 1
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "JORGE S.",
+      "goles": 6
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "CRISTOBAL P.",
+      "goles": 3
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "CRISTOBAL J.",
+      "goles": 4
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "PATRICK S.",
+      "goles": 1
+    },
+    {
+      "equipo": "recreativo-ferroviario",
+      "jugador": "THIAGO M.",
+      "goles": 4
+    },
+    {
+      "equipo": "recreativo-ferroviario",
+      "jugador": "ANDRÉS M.",
+      "goles": 2
+    },
+    {
+      "equipo": "montepinar-f-c",
+      "jugador": "JAIME D.",
+      "goles": 2
+    },
+    {
+      "equipo": "montepinar-f-c",
+      "jugador": "GONZALO D.",
+      "goles": 2
+    },
+    {
+      "equipo": "cabras-f-c",
+      "jugador": "ALBERTO C.",
+      "goles": 4
+    },
+    {
+      "equipo": "team-jog-r-r",
+      "jugador": "ABEL R.",
+      "goles": 1
+    },
+    {
+      "equipo": "macarroneros",
+      "jugador": "TOMÁS L.",
+      "goles": 1
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "LUCAS B.",
+      "goles": 1
+    },
+    {
+      "equipo": "recreativo-ferroviario",
+      "jugador": "CARLOS V.",
+      "goles": 2
+    },
+    {
+      "equipo": "zona-gemelos-f-c",
+      "jugador": "JUAN G.",
+      "goles": 1
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "ALEJANDRO O.",
+      "goles": 1
+    },
+    {
+      "equipo": "u-d-rayo-ferrocarril",
+      "jugador": "ANTONIO",
+      "goles": 2
+    }
+  ]
+}

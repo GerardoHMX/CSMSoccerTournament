@@ -1,0 +1,9 @@
+{
+  "nombre": "Macarroneros",
+  "ciclo": "ESO",
+  "curso": "2º ESO A",
+  "grupo": "A",
+  "logo": "/src/assets/equipos/macarroneros.png",
+  "fairplay": 6,
+  "orden": 4
+}

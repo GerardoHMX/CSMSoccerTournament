@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import { imagen } from '../lib/imagenes';
+import { t } from '../lib/i18n';
+const { bases, mostrarCarrusel, mostrarAcordeon } = Astro.props;
+---
+{mostrarCarrusel && (
+  <section id="carouselSection" class="w-full py-8">
+    <div class="w-full">
+      <div id="carousel-container" class="relative w-full">
+        <button id="carousel-prev" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-brand-md hover:bg-gray-50 transition-all duration-300 focus:outline-none border-none" aria-label="Anterior" data-translate-aria-label="nav_previous">
+          <svg class="w-6 h-6 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <button id="carousel-next" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-brand-md hover:bg-gray-50 transition-all duration-300 focus:outline-none border-none" aria-label="Siguiente" data-translate-aria-label="nav_next">
+          <svg class="w-6 h-6 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </button>
+        <div class="lg:overflow-hidden">
+          <div id="carousel-track" class="flex transition-transform duration-500 ease-in-out" style="transform: translateX(0%)">
+            {bases.map((c, i) => {
+              const img = imagen(c.imagen);
+              return (
+                <div class="carousel-card flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-2 md:px-3" data-index={i}>
+                  <div class={`bg-brand-white ${i < 2 ? 'text-brand-blue' : 'text-gray-700'} rounded-brand shadow-brand-lg overflow-hidden h-full flex flex-col`}>
+                    <div class="p-14 flex-1 flex flex-col justify-center">
+                      <div class="text-center"><h3 class="text-2xl font-bold mb-3">{c.titulo}</h3></div>
+                      <div>
+                        {img && (
+                          <div class="flex-1 flex flex-col gap-3 items-center justify-center">
+                            <Image src={img} alt={c.titulo} width={640} class="w-60 md:w-80 object-contain" />
+                            {c.pie_imagen && <h3 class="text-brand-gold text-md font-bold">{c.pie_imagen}</h3>}
+                          </div>
+                        )}
+                        {c.contenido && <div class:list={['bases-md bases-md--carousel', c.centrado && 'bases-md--centrado']} set:html={c.html} />}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div id="carousel-indicators" class="flex justify-center items-center gap-2 mt-6"></div>
+      </div>
+    </div>
+  </section>
+)}
+
+{mostrarAcordeon && (
+  <section id="accordionSection" class="w-full py-8 bg-brand-bg-light">
+    <div class="mx-auto px-2 sm:px-4 lg:px-6 max-w-4xl">
+      <h3 class="text-3xl md:text-4xl text-center text-brand-blue font-bold uppercase mb-8" data-translate="section_bases_title">{t('section_bases_title')}</h3>
+      <div id="basesAccordion" class="accordion">
+        {bases.map((c, i) => {
+          const img = imagen(c.imagen);
+          return (
+            <div class="accordion-item">
+              <h3 class="accordion-header" id={`accordion-header-${i}`}>
+                <button class:list={['accordion-button', i !== 0 && 'collapsed']} type="button" data-bs-toggle="collapse" data-bs-target={`#accordion-collapse-${i}`} aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`accordion-collapse-${i}`}>{c.titulo}</button>
+              </h3>
+              <div id={`accordion-collapse-${i}`} class:list={['accordion-collapse collapse', i === 0 && 'show']} aria-labelledby={`accordion-header-${i}`} data-bs-parent="#basesAccordion">
+                <div class="accordion-body">
+                  {img && (
+                    <div class="flex-1 flex flex-col gap-3 items-center justify-center">
+                      <Image src={img} alt={c.titulo} width={640} class="w-60 md:w-80 object-contain" />
+                      {c.pie_imagen && <h3 class="text-brand-gold text-md font-bold">{c.pie_imagen}</h3>}
+                    </div>
+                  )}
+                  {c.contenido && <div class:list={['bases-md bases-md--acordeon', c.centrado && 'bases-md--centrado']} set:html={c.html} />}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}

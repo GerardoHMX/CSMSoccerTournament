@@ -707,3 +707,7 @@ div:has(#menuMovil) {
 .bases-md--acordeon h3 { font-size: 1rem; font-weight: 600; text-align: left; text-transform: none; font-variation-settings: normal; margin: 0; }
 .bases-md--centrado { align-items: center; justify-content: center; margin-top: 1rem; }
 .bases-md--centrado p { font-size: 1.125rem; line-height: 1.75rem; font-weight: 700; }
+
+/* Pestañas de grupo (A, B, C, D): «TODOS» ocupa lo que necesita y el resto se reparte (antes se solapaban) */
+#selector-grupos-equipos .nav-item { flex: 1 1 auto; }
+#selector-grupos-equipos .nav-link { padding-left: .5rem; padding-right: .5rem; white-space: nowrap; }

@@ -29,7 +29,7 @@ const etiqueta = 'text-gray-500 text-xs sm:text-md md:text-lg lg:text-lg';
                   {f.equipo.logo && <Logo ruta={f.equipo.logo} alt={f.equipo.nombre} class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 object-contain" />}
                   <div class="text-xs sm:text-md md:text-lg lg:text-lg font-bold flex-1">{f.equipo.nombre}</div>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-2">
+                <div class="grid grid-cols-2 2xl:grid-cols-4 gap-y-2 gap-x-3">
                   {[['table_points', 'PTS', f.Pts], ['table_won', 'PG', f.PG], ['table_drawn', 'PE', f.PE], ['table_lost', 'PP', f.PP],
                     ['table_goals_for', 'GF', f.GF], ['table_goals_against', 'GC', f.GC], ['table_goals_diff', 'DG', f.DG], ['table_fair_play', 'FPY', f.FairPlay]].map(([k, txt, v]) => (
                     <div class="flex gap-1"><span class={etiqueta} data-translate={k}>{txt}</span>:<div class={dato}>{v}</div></div>

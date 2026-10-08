@@ -42,7 +42,7 @@ const puestos = [['primer_puesto', 'Primer puesto'], ['segundo_puesto', 'Segundo
                         <div class={`flex flex-col bg-white shadow-lg overflow-hidden rounded-brand ${l ? 'hover:shadow-brand-lg transition-shadow ' : ''}border-b-2 border-brand-gold`}>
                           <div class="w-full h-16 md:h-28 lg:h-32 flex items-center justify-center overflow-hidden border-b-2 border-brand-gold">
                             {av
-                              ? <Image src={av} alt={l?.jugador ?? `Posición ${i + 1}`} width={400} class="h-full object-cover object-center" />
+                              ? <Image src={av} alt={l?.jugador ?? `Posición ${i + 1}`} width={400} class="h-full w-auto object-cover object-center" />
                               : <div class="w-full h-full flex items-center justify-center"><span class="text-gray-400 text-lg">{l?.jugador ?? '-'}</span></div>}
                           </div>
                           {l ? (
